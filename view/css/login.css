@@ -1,7 +1,25 @@
 body {
     background-color: #DDACD7;
 }
-#login {
+article {
+    transition: all 0.125s;
+}
+#aux {
     align-items: center;
     height: 100vh;
+}
+.my-btn {
+    background-color: #D597CD;
+    border: 0px;
+    transition: 0.25s;
+}
+.my-btn:hover {
+    background-color: #D165C4;
+}
+.my-div {
+    background-color: #D165C4;
+}
+.meuConsagrado {
+    display: none;
+    opacity: 0;
 }
