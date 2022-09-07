@@ -1,0 +1,41 @@
+/* Contents */
+.header-main {
+    background-color: #CC54BE;
+}
+
+.icons-menu-tasks {
+    color: #D165C4;
+    font-weight: bold;
+}
+
+.list-item-tasks {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+} /* Ainda em ajustes*/
+
+/* Images */
+.img-logo {
+    max-width: 30px;
+}
+
+/* Default Elements */
+.btn-default {
+    background-color: #D165C4;
+    border: 0px;
+    transition: 0.25s;
+    padding: 0.2em 1em;
+    color: white;
+}
+
+.btn-default:hover {
+    background-color: #D597CD;
+    color: white;
+}
+
+/* Resizable Elements */
+@media screen and (max-width: 768px) {
+    .img-logo {
+        max-width: 50px;
+    }
+}
