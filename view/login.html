@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<title>Paper To-Do</title>
+		
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/login.css">
+		
+	</head>
+	<body>
+		<section class="content-login">
+			<article id="signIn" class="container overflow-hidden sing-page show">
+				<div class="row justify-content-around">
+					<div class="col-12 col-md-7 d-flex flex-column align-items-center justify-content-center">
+						
+						<div class="text-center mb-3 d-flex align-items-center d-md-block">
+							<img src="data/paperclip.svg" class="img-logo" alt="paperclip"/>
+							<h1 class="fw-normal mt-2">Paper</h1>
+						</div>
+						
+						<div class="text-center mt-2 d-none d-md-block">
+							<h2 class="fw-normal">
+								Bem-vindo de volta!
+							</h2>
+							
+							<p class="p-2 fs-5">
+								Realize o login para conectar-se a sua conta Paper.
+							</p>
+						</div>
+
+					</div>
+					<div class="col-12 col-md-5">
+						<div class="rounded-login bg-white shadow">
+							<form id="form-login" class="form-login gap-3">
+								<label class="fs-4 fw-light">
+									<strong>Login</strong>
+								</label>
+								<div class="">
+									<label for="loginEmail" class="form-label">E-mail</label>
+									<input type="email" class="form-control" id="loginEmail"/>
+								</div>
+								<div class="">
+									<label for="loginPassword" class="form-label">Senha</label>
+									<input type="password" class="form-control" id="loginPassword"/>
+								</div>
+								<div class="d-flex flex-row-reverse mt-5">
+									<button type="submit" class="btn rounded-5 btn-default shadow-sm">Login</button>
+								</div>
+							</form>
+							<div class="footer-login text-center py-3">
+								<span>
+									Não possui conta? 
+									<a href="#signUp" class="link-dark btn-alter-sing-page">Criar conta</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+			<article id="signUp" class="container overflow-hidden sing-page">
+				<div class="row justify-content-around pb-5">
+					<div class="col-12 col-md-5">
+						<div class="mb-3 text-center">
+							<img src="data/paperclip96.svg" class="img-logo" alt="paperclip"/>
+						</div>
+						<div class="rounded-login bg-white shadow">
+							<form id="form-cadastro" class="form-cadastro gap-3">
+
+								<label class="fs-4 fw-light">
+									<strong>Cadastro</strong>
+								</label>
+
+								<div>
+									<label for="signUpName" class="form-label">Nome</label>
+									<input type="email" class="form-control" id="signUpName"/>
+								</div>
+								<div>
+									<label for="signUpEmail" class="form-label">E-mail</label>
+									<input type="email" class="form-control" id="signUpEmail"/>
+								</div>
+								<div>
+									<label for="signUpPassword" class="form-label">Senha</label>
+									<input type="password" class="form-control" id="signUpPassword"/>
+								</div>
+								<div class="mt-2 d-flex justify-content-between">
+									<a href="#signIn" class="btn rounded-5 btn-default px-4 py-1 shadow-sm btn-alter-sing-page" role="button">Voltar</a>
+									<button type="submit" class="btn rounded-5 btn-default px-4 py-1 shadow-sm">Cadastrar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</article>
+		</section>
+		<!-- <div>
+			<h1>Login</h1>
+			Arrumar o processa.php
+			<form action="processa.php">
+				Login: <br/>
+				<input type="text" name="login"><br/>
+				Senha: <br/>
+				<input type="password" name="senha"><br />
+				<input type="submit" value="Login">
+			</form>
+		</div>
+		<div>Não possui conta? <a href="criarConta.html">Criar conta</a></div>
+		<div>
+			<h1>Paper</h1>
+			<h2>Bem-Vindo de volta!</h2>
+			<p>Realize o login para</p>
+			<p>conectar-se a sua conta Paper.</p>
+		</div> -->
+	
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+		
+		<script src="js/login.js"></script>
+	
+	</body>
+</html>
