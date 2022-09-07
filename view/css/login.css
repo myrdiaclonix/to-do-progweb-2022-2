@@ -53,6 +53,13 @@ article {
 /* Images */
 .img-logo {
     max-width: 200px;
+    rotate: 45deg;
+    position: absolute;
+}
+.img-logo2 {
+    max-width: 200px;
+    rotate: -45deg;
+    
 }
 
 /* Default Elements */
@@ -69,7 +76,7 @@ article {
 
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
-    .img-logo {
+    .img-logo, .img-logo2 {
         max-width: 50px;
     }
 }
