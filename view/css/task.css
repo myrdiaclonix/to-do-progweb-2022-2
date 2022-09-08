@@ -82,6 +82,34 @@
     background-color:#55224f;
 }
 
+/* Add list css */
+.my-ls-row {
+    height: 100vh;
+}
+.my-ls-header {
+    background-color: #D597CD;
+}
+.my-ls-main {
+    background-color: #CC54BE;
+}
+.my-ls-input {
+    background-color: #CC54BE;
+    border: none;
+    color: white;
+}
+.my-ls-input[type]:focus {
+    background-color: #CC54BE;
+    color: white;
+}
+.my-ls-input::placeholder {
+    color: white;
+}
+#ls-description:focus {
+    background-color: #CC54BE;
+    box-shadow: 0px 0px;
+    color: white;
+}
+
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
