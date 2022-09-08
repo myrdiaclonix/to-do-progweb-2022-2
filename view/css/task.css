@@ -45,6 +45,14 @@
 .fundo-task:hover, .minhas-tarefas:hover{
     background-color: #d597cd73;
 }
+
+.add-task2{
+    display: none;
+}
+.add-task3{
+    display: inline;
+}
+
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
