@@ -3,6 +3,10 @@
     background-color: #CC54BE;
 }
 
+.adicionar-tarefa{
+    background-color: #CC54BE;
+}
+
 .icons-menu-tasks {
     color: #D165C4;
     font-weight: bold;
@@ -11,8 +15,13 @@
 .add-task2{
     display: none;
 }
+
 .add-task3{
     display: inline;
+}
+
+.form-background{
+    background-color: rgba(213, 151, 205, 0.2);
 }
 
 .list-item-tasks {
