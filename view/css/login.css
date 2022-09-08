@@ -53,14 +53,9 @@ article {
 /* Images */
 .img-logo {
     max-width: 200px;
-    rotate: 45deg;
-    position: absolute;
+    position: none;
 }
-.img-logo2 {
-    max-width: 200px;
-    rotate: -45deg;
-    
-}
+
 
 /* Default Elements */
 .btn-default {

@@ -32,6 +32,9 @@
     background-color: #D597CD;
     color: white;
 }
+.fundo-task{
+    background-color: #D597CD;
+}
 
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
