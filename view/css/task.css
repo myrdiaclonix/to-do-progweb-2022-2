@@ -43,31 +43,79 @@
 
 /* Default Elements */
 .btn-default {
-    background-color: #D165C4;
+    background-color: #D165C4 !important;
     border: 0px;
     transition: 0.25s;
-    padding: 0.2em 1em;
-    color: white;
+    padding: 0.15em 2.5em;
+    color: white !important;
 }
 
 .btn-default:hover {
-    background-color: #D597CD;
-    color: rgb(255, 255, 255);
+    background-color: #CC54BE !important;
+    color: white !important;
 }
+
+#input-search-task {
+    border-radius: 0.6em 0 0 0.6em;
+}
+
+#input-search-task + button {
+    border-radius: 0 0.6em 0.6em 0;
+}
+
+#input-search-task + button:hover {
+    background-color: rgba(213, 151, 205, 0.2);
+    color: #55224f;
+}
+
+/* Modals */
+.modal-body-default {
+    background-color: #CC54BE;
+}
+
+.modal-header-default {
+    background-color: #D597CD;
+}
+
 /*fundo da task*/
+.input-default {
+    background-color: rgba(213, 151, 205, 0.2);
+}
+
+.input-default:focus{
+    background-color: rgba(213, 151, 205, 0.2);
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
+
+.input-custom, .input-custom:focus{
+    background-color: transparent;
+    border-color: white;
+    color: white;
+    box-shadow: none;
+}
+
+.input-custom > option{
+    color: black;
+}
+
+.input-custom.bd, .input-custom.bd:focus{
+    border-radius: 0;
+    border: 0;
+    border-bottom: white solid 1px;
+}
+
+.input-custom::placeholder {
+    color: white;
+}
+
 .fundo-task, .minhas-tarefas{
     background-color: rgba(213, 151, 205, 0.2);
     
 }
 .fundo-task:hover, .minhas-tarefas:hover{
     background-color: #d597cd73;
-}
-
-.btn-default {
-    background-color: #D597CD;
-    border: 0px;
-    transition: 0.25s;
-    padding: 0.15em 2.5em;
 }
 
 #conteudo-Tarefa {
@@ -82,34 +130,6 @@
     background-color:#55224f;
 }
 
-/* Add list css */
-.my-ls-row {
-    height: 100vh;
-}
-.my-ls-header {
-    background-color: #D597CD;
-}
-.my-ls-main {
-    background-color: #CC54BE;
-}
-.my-ls-input {
-    background-color: #CC54BE;
-    border: none;
-    color: white;
-}
-.my-ls-input[type]:focus {
-    background-color: #CC54BE;
-    color: white;
-}
-.my-ls-input::placeholder {
-    color: white;
-}
-#ls-description:focus {
-    background-color: #CC54BE;
-    box-shadow: 0px 0px;
-    color: white;
-}
-
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
@@ -117,9 +137,6 @@
     }
 }
 
-input[type]:focus{
-    background-color: rgba(213, 151, 205, 0.2);
-    box-shadow: 0 0 0 0;
-    border: 0 none;
-    outline: 0;
+.input-custom:focus{
+    border-bottom: white solid 1px;
 }
