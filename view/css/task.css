@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
+
 } /* Ainda em ajustes*/
 
 .form-check-input:checked{
@@ -39,20 +40,12 @@
 }
 /*fundo da task*/
 .fundo-task, .minhas-tarefas{
-    background-color: #d597cd73;
+    background-color: rgba(213, 151, 205, 0.2);
     
 }
 .fundo-task:hover, .minhas-tarefas:hover{
     background-color: #d597cd73;
 }
-
-.add-task2{
-    display: none;
-}
-.add-task3{
-    display: inline;
-}
-
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
