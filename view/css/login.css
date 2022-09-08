@@ -48,6 +48,20 @@ article {
 
 .form-background{
     background-color: rgba(213, 151, 205, 0.2);
+    
+}
+input[type=email]:focus{
+    background-color: rgba(213, 151, 205, 0.2);
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+}
+
+input[type=password]:focus{
+    background-color: rgba(213, 151, 205, 0.2);
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
 }
 
 .rounded-login {
