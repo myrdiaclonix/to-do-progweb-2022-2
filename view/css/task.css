@@ -30,12 +30,16 @@
 
 .btn-default:hover {
     background-color: #D597CD;
-    color: white;
+    color: rgb(255, 255, 255);
 }
-.fundo-task{
-    background-color: #D597CD;
+/*fundo da task*/
+.fundo-task, .minhas-tarefas{
+    background-color: #d597cd73;
+    
 }
-
+.fundo-task:hover, .minhas-tarefas:hover{
+    background-color: #d597cd73;
+}
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
