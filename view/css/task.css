@@ -3,10 +3,6 @@
     background-color: #CC54BE;
 }
 
-.adicionar-tarefa{
-    background-color: #CC54BE;
-}
-
 .icons-menu-tasks {
     color: #D165C4;
     font-weight: bold;
@@ -21,7 +17,11 @@
 }
 
 .form-background{
-    background-color: rgba(213, 151, 205, 0.2);
+    background-color: #D597CD
+}
+
+.rounded-login {
+    border-radius: 1em;
 }
 
 .list-item-tasks {
@@ -63,19 +63,35 @@
     background-color: #d597cd73;
 }
 
-
-input[type]:focus{
-    box-shadow: 0 0 0 0;
-    outline: 0;
+.btn-default {
+    background-color: #D597CD;
+    border: 0px;
+    transition: 0.25s;
+    padding: 0.15em 2.5em;
 }
 
+#conteudo-Tarefa {
+    background-color: #CC54BE;
+}
 
+#cancelar-button{
+    background-color: rgba(213, 151, 205, 0.2);
+}
 
-
+#adicionar-button{
+    background-color:#55224f;
+}
 
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
         max-width: 50px;
     }
+}
+
+input[type]:focus{
+    background-color: rgba(213, 151, 205, 0.2);
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
 }

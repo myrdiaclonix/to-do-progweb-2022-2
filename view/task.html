@@ -253,28 +253,37 @@
 			</main>
 
 		</section>
-		<section class="adicionar-tarefa add-task2" id="">
-			<h1>Adicionar Tarefa</h1>
-			<form id="add-Tarefa">
-				<div class="">
-					<input id="titulo" name="titulo" type="text" placeholder="Título">
+		<article class="adicionar-tarefa add-task2">
+			<div class="row justify-content-around pb-5">
+				<div class="col-12 col-md-5">
+					<div class="rounded-login bg-white shadow">
+						<label class="fs-4 fw-light">
+							<strong>Adicionar Tarefa</strong>
+						</label>
+						<form id="conteudo-Tarefa">
+							<div class="">
+								<input class="form-control form-background" id="titulo" name="titulo" type="titulo" placeholder="Título">
+							</div>
+							<div class="">
+								<input class="form-control form-background" id="data-limite" name="dataLimite" type="date" placeholder="Finalizar em...">
+							</div>
+							<div class="">
+								<input type="description" class="form-control form-background" placeholder="Descrição">
+							</div>
+							<div>
+								<select class="form-control form-background" name="opcao">
+									<option>Viagem</option>
+									<option>Aniversário</option>
+									<option>Faculdade</option>
+								</select>
+							</div>
+								<button type="submit" id="cancelar-button" class="btn rounded-5 btn-default shadow-sm">Cancelar</button>
+								<button type="submit" id="adicionar-button" class="btn rounded-5 btn-default shadow-sm">Adicionar</button>
+						</form>
+					</div>
 				</div>
-				<div class="">
-					<input id="data-limite" name="dataLimite" type="date" placeholder="Finalizar em...">
-				</div>
-				<div class="">
-					<input id="descricao" name="descricao" type="text" placeholder="Descrição">
-				</div>
-				<div class="">
-					<select name="opcao">
-						<option>Viagem</option>
-						<option>Aniversário</option>
-						<option>Faculdade</option>
-					</select>
-				</div>
-				<button id="cancelar">Cancelar</button>
-				<button id="adicionar">Adicionar</button>
-			</form>
+			</div>
+		</article>
 
 		</section>
 		<footer></footer>
