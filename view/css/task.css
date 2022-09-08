@@ -8,6 +8,13 @@
     font-weight: bold;
 }
 
+.add-task2{
+    display: none;
+}
+.add-task3{
+    display: inline;
+}
+
 .list-item-tasks {
     display: flex;
     align-items: center;
