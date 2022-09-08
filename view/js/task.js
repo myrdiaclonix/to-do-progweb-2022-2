@@ -20,3 +20,12 @@ addTarefa.addEventListener("click", function(){
 
     var nova = document.createElement("div");
 });
+
+
+function aparece(){
+
+    var troca = document.querySelector(".add-task2");
+    console.log(troca);
+    troca.classList.add("add-task3");    
+
+}
