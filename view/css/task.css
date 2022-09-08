@@ -62,6 +62,17 @@
 .fundo-task:hover, .minhas-tarefas:hover{
     background-color: #d597cd73;
 }
+
+
+input[type]:focus{
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
+
+
+
+
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
