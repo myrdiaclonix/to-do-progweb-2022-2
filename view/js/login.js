@@ -1,4 +1,20 @@
 // Função: alterar as paginas do login (entre Login e Cadastro)
+
+$('.return-btn').on("click", function(e) {
+
+    let el = $(this).attr("href");
+    let page = $(el);
+    let allPages = $(".sing-page");
+
+    allPages.addClass("fade");
+
+    setTimeout(function() {
+        allPages.removeClass("show fade");
+        page.addClass("show");
+    }, 200);
+
+});
+
 $('.btn-alter-sing-page').on("click", function(e) {
 
     let el = $(this).attr("href");
@@ -35,21 +51,3 @@ $('#form-cadastro').on("submit", function(e) {
     alert("Fiz Cadastro!");
 
 });
-
-/* version by Jorge **OLD**
-function changeView() {
-    let a = document.getElementById("signIn");
-    let b = document.getElementById("signUp");
-    a.style.opacity = "0";
-    setTimeout(function() {
-        a.style.display = "none";
-        b.style.display = "block";
-        setTimeout(function() {
-            b.style.opacity = "1";
-        }, 50);
-    }, 100);
-}
-
-const e = document.getElementsByTagName("a")[0];
-e.addEventListener("click", changeView);
-*/
