@@ -1,10 +1,6 @@
-
-
-
-
 var addTarefa = document.querySelector(".adicionar-tarefa");
 
-console.log(addTarefa);
+// console.log(addTarefa);
 
 addTarefa.addEventListener("click", function(){
     event.preventDefault();
@@ -29,3 +25,22 @@ function aparece(){
     troca.classList.add("add-task3");    
 
 }
+
+$("#modal-add-lists").on("show.bs.modal", function(e) {
+    
+    console.log("teste");
+
+    let btn = $(e.target); 
+    let type = btn.attr("data-type") != undefined ? 1 : 0;
+
+    if(type == 1) {
+
+        $("#modal-add-lists .modal-title").text("Editar tarefa");
+
+    } else {
+
+        $("#modal-add-lists .modal-title").text("Adicionar tarefa");
+    }
+
+
+});

@@ -25,14 +25,51 @@
 						<a class="navbar-brand text-white" href="#home">Paper</a>
 					</div>
 					
-					<span class="navbar-text">
-						<a href="#login" class="text-white">Login</a>
+					<span class="navbar-text" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-user-profile" aria-controls="offcanvas-user-profile">
+						<a href="#login" class="">
+							<img src="data/person-circle.svg" width="25" height="25" alt="User logo perfil">
+						</a>
 					</span>
 					
 					<button class="navbar-toggler d-block d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 				</div>
+
+				<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-user-profile" aria-labelledby="offcanvas-user-profileLabel">
+					<div class="offcanvas-header">
+						<h5 class="offcanvas-title" id="offcanvas-user-profileLabel">Configurações</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body">
+					<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Link</a>
+						</li>
+						<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Dropdown
+						</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li>
+							<hr class="dropdown-divider">
+							</li>
+							<li><a class="dropdown-item" href="#">Something else here</a></li>
+						</ul>
+						</li>
+					</ul>
+					<form class="d-flex" role="search">
+						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success" type="submit">Search</button>
+					</form>
+					</div>
+				</div>
+
 				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 					<div class="offcanvas-header">
 						<h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
@@ -114,7 +151,7 @@
 							</div>
 						</div>
 
-						<div class="col-12 col-md-2">
+						<div class="col-12 col-md-4 d-flex justify-content-end">
 							<a href="#modal-add-tasks" class="btn btn-default rounded-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks">
 								Adicionar Tarefa
 							</a>
@@ -148,7 +185,7 @@
 									<span class="fs-6">
 										26 de Agosto de 2022
 									</span>
-									<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks">
+									<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks" data-type="1">
 										<i class="far fa-pen"></i>
 									</a>
 	
@@ -315,7 +352,7 @@
 						
 						<div class="col-12">
 							<select class="form-select input-custom" name="opcao">
-								<option>Escolha uma categoria...</option>
+								<option>Escolha uma lista...</option>
 								<option>Viagem</option>
 								<option>Aniversário</option>
 								<option>Faculdade</option>
