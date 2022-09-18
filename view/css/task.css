@@ -8,15 +8,15 @@
     font-weight: bold;
 }
 
-.add-task2{
+.add-task2 {
     display: none;
 }
 
-.add-task3{
+.add-task3 {
     display: inline;
 }
 
-.form-background{
+.form-background {
     background-color: #D597CD
 }
 
@@ -29,9 +29,11 @@
     align-items: center;
     gap: 0.5em;
 
-} /* Ainda em ajustes*/
+}
 
-.form-check-input:checked{
+/* Ainda em ajustes*/
+
+.form-check-input:checked {
     background-color: #55224f;
     border-color: #55224f;
 }
@@ -59,11 +61,11 @@
     border-radius: 0.6em 0 0 0.6em;
 }
 
-#input-search-task + button {
+#input-search-task+button {
     border-radius: 0 0.6em 0.6em 0;
 }
 
-#input-search-task + button:hover {
+#input-search-task+button:hover {
     background-color: rgba(213, 151, 205, 0.2);
     color: #55224f;
 }
@@ -82,25 +84,27 @@
     background-color: rgba(213, 151, 205, 0.2);
 }
 
-.input-default:focus{
+.input-default:focus {
     background-color: rgba(213, 151, 205, 0.2);
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
 }
 
-.input-custom, .input-custom:focus{
+.input-custom,
+.input-custom:focus {
     background-color: transparent;
     border-color: white;
     color: white;
     box-shadow: none;
 }
 
-.input-custom > option{
+.input-custom>option {
     color: black;
 }
 
-.input-custom.bd, .input-custom.bd:focus{
+.input-custom.bd,
+.input-custom.bd:focus {
     border-radius: 0;
     border: 0;
     border-bottom: white solid 1px;
@@ -110,11 +114,14 @@
     color: white;
 }
 
-.fundo-task, .minhas-tarefas{
+.fundo-task,
+.minhas-tarefas {
     background-color: rgba(213, 151, 205, 0.2);
-    
+
 }
-.fundo-task:hover, .minhas-tarefas:hover{
+
+.fundo-task:hover,
+.minhas-tarefas:hover {
     background-color: #d597cd73;
 }
 
@@ -122,12 +129,12 @@
     background-color: #CC54BE;
 }
 
-#cancelar-button{
+#cancelar-button {
     background-color: rgba(213, 151, 205, 0.2);
 }
 
-#adicionar-button{
-    background-color:#55224f;
+#adicionar-button {
+    background-color: #55224f;
 }
 
 /* Resizable Elements */
@@ -137,6 +144,6 @@
     }
 }
 
-.input-custom:focus{
+.input-custom:focus {
     border-bottom: white solid 1px;
 }

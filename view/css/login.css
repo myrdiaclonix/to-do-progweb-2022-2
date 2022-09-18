@@ -25,7 +25,7 @@ article {
     display: block;
 }
 
-.description-login{
+.description-login {
     font-weight: normal;
 }
 
@@ -46,23 +46,17 @@ article {
     padding: 1.7em 1.5em 1.5em 1.5em;
 }
 
-.form-background{
+.form-background {
     background-color: rgba(213, 151, 205, 0.2);
-    
-}
-input[type]:focus{
-    background-color: rgba(213, 151, 205, 0.2);
-    box-shadow: 0 0 0 0;
-    border: 0 none;
-    outline: 0;
+    border: 0;
 }
 
-/*input[type=password]:focus{
+input[type]:focus {
     background-color: rgba(213, 151, 205, 0.2);
     box-shadow: 0 0 0 0;
     border: 0 none;
     outline: 0;
-}*/
+}
 
 .rounded-login {
     border-radius: 1em;
@@ -89,7 +83,9 @@ input[type]:focus{
 
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
-    .img-logo, .img-logo2 {
+
+    .img-logo,
+    .img-logo2 {
         max-width: 50px;
     }
 }

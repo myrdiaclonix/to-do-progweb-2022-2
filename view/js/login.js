@@ -1,6 +1,5 @@
 // Função: alterar as paginas do login (entre Login e Cadastro)
-
-$('.return-btn').on("click", function(e) {
+$('.return-btn').on("click", function (e) {
 
     let el = $(this).attr("href");
     let page = $(el);
@@ -8,14 +7,15 @@ $('.return-btn').on("click", function(e) {
 
     allPages.addClass("fade");
 
-    setTimeout(function() {
+    setTimeout(function () {
         allPages.removeClass("show fade");
         page.addClass("show");
     }, 200);
 
 });
 
-$('.btn-alter-sing-page').on("click", function(e) {
+// Função: altera entre a página de Cadastro e Login
+$('.btn-alter-sing-page').on("click", function (e) {
 
     let el = $(this).attr("href");
     let page = $(el);
@@ -23,7 +23,7 @@ $('.btn-alter-sing-page').on("click", function(e) {
 
     allPages.addClass("fade");
 
-    setTimeout(function() {
+    setTimeout(function () {
         allPages.removeClass("show fade");
         page.addClass("show");
     }, 200);
@@ -31,18 +31,18 @@ $('.btn-alter-sing-page').on("click", function(e) {
 });
 
 // Função: validar o formulário de login
-$('#form-login').on("submit", function(e) {
-    
+$('#form-login').on("submit", function (e) {
+
     e.preventDefault();
 
     /* Inserir todo o código de tratamento */
-    
+
     alert("Fiz Login!");
 
 });
 
 // Função: validar o formulário de cadastro
-$('#form-cadastro').on("submit", function(e) {
+$('#form-cadastro').on("submit", function (e) {
 
     e.preventDefault();
 
