@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://web.resource.org/cc/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 16 16" version="1.0">
+  <defs id="defs4">
+    <pattern id="pattern3409" width="2" patternUnits="userSpaceOnUse" patternTransform="translate(-9,7)" height="9">
+      <g id="g3405" transform="translate(9,-7)">
+        <path id="path3401" stroke-linejoin="bevel" d="m-8.5 7.5v8" stroke="#fff" stroke-miterlimit="0" fill="none"/>
+        <path id="path3403" stroke-linejoin="bevel" d="m-7.5 7.5v8" stroke="#000" stroke-miterlimit="0" fill="none"/>
+      </g>
+    </pattern>
+  </defs>
+  <path id="path3355" stroke-linejoin="bevel" d="m0.5 1.5l1-1h13l1 1v13l-1 1h-13l-1-1v-13z" stroke="#000" stroke-miterlimit="0" fill="#fff"/>
+  <path id="path3357" stroke-linejoin="bevel" d="m13.5 9.5v-1h-11v1l3 4h5l3-4z" stroke="#000" stroke-miterlimit="0" fill="url(#pattern3409)"/>
+  <path id="path3378" stroke-linejoin="bevel" d="m2.5 5.5l2-2 2 2" stroke="#000" stroke-miterlimit="0" fill="none"/>
+  <path id="path3380" stroke-linejoin="bevel" d="m9.5 5.5l2-2 2 2" stroke="#000" stroke-miterlimit="0" fill="none"/>
+  <rect id="rect3414" height="9" width="2" y="7" x="-9" fill="url(#pattern3409)"/>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>16x16px-capable, black and white icons</dc:title>
+        <dc:date>2008-02-17T17:44:03</dc:date>
+        <dc:description>An icon I created and mostly didn't use so far.</dc:description>
+        <dc:source>http://openclipart.org/detail/14320/16x16px-capable-black-and-white-icons-by-qubodup-14320</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>qubodup</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>black &amp; white</rdf:li>
+            <rdf:li>cartoon</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>icons</rdf:li>
+            <rdf:li>pixel</rdf:li>
+            <rdf:li>remix problem</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
