@@ -1,0 +1,1 @@
+INSERT IGNORE INTO usuarios (id, email, password) VALUES (1, "teste@email.com", "12345678")

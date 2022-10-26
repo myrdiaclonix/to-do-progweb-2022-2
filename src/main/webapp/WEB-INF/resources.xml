@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+	<Resource id="myDS" type="DataSource">
+		JdbcDriver = com.mysql.cj.jdbc.Driver
+		JdbcUrl = jdbc:mysql://localhost:3306/to-do
+		UserName = root
+		Password = 
+	</Resource>
+</tomee>
