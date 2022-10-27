@@ -2,7 +2,11 @@ package site.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,8 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import site.dao.UsuarioDAO;
-import site.entities.Usuario;
+import site.dao.TaskDAO;
+import site.entities.Task;
+import site.entities.User;
 import site.utils.ResponseJson;
 
 /**
@@ -28,7 +33,8 @@ import site.utils.ResponseJson;
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private UsuarioDAO dao = new UsuarioDAO();
+    private TaskDAO dao = new TaskDAO();
+    Date data = new Date();
     
     public TaskController() {
         super();
@@ -37,13 +43,17 @@ public class TaskController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        List<Usuario> usuarios = dao.listAll();
         
-        for(Usuario jg : usuarios) {
-            System.out.println(jg.getEmail());
-        }
-
+        String search = request.getParameter("s");
+        
+        search = search == null ? "" : search;
+        
+        List<Task> pTasks = dao.findByTitleStatus(search, 0);
+        List<Task> cTasks = dao.findByTitleStatus(search, 1, 1);
+        
+        request.setAttribute("pTasks", pTasks);
+        request.setAttribute("cTasks", cTasks);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
@@ -62,67 +72,21 @@ public class TaskController extends HttpServlet {
         Gson json = new Gson();
         ResponseJson res = new ResponseJson();
         
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
-        String passCon = request.getParameter("password-confirm");
-
+        String action = request.getParameter("action");
         
-        if(email.isEmpty()) {
-            res.setMsg("Erro no e-mail");
+        if(action.equals("SLTKS")) {
+            
+            String search = request.getParameter("input-search-task");
+            out.println(search);
+          
+            /*
+             * res = new ResponseJson("Usuário Cadastrado com Sucesso!", 1);
             out.println(res.toJson());
             out.close();
-            return;
+             * */
         }
         
-        if(pass.isEmpty()) {
-            res.setMsg("Senha inválida!");
-            out.println(res.toJson());
-            out.close();
-            return;
-        } else if(pass.length() < 8) {
-            res.setMsg("A senha deve possuir mais de 8 digitos!");
-            out.println(res.toJson());
-            out.close();
-            return;
-        }
-        
-        if(passCon.isEmpty()) {
-            res.setMsg("Confirme a senha!");
-            out.println(res.toJson());
-            out.close();
-            return;
-        } else if(!passCon.equals(pass)) {
-            res.setMsg("Confirmação da senha não é igual a senha!");
-            out.println(res.toJson());
-            out.close();
-            return;
-        }
-        
-        // Check User's e-mail
-        List<Usuario> teste = dao.listByEmail(email);
-        if(teste != null && teste.size() > 0) {
-            res.setMsg("Usuário Já Cadastrado!");
-            out.println(res.toJson());
-            out.close();
-            return;
-        } 
-
-        // Add Usuario
-        Usuario us = new Usuario(null, email, pass);        
-        boolean save = dao.Save(us);
-        
-        if(!save) {
-            res.setMsg("Erro ao Cadastrar Usuário!");
-            out.println(res.toJson());
-            out.close();
-            return;
-        }
-        
-        //Map<String, String[]> valores = request.getParameterMap();
-        // valores.get("email")[0];
-        
-        res = new ResponseJson("Usuário Cadastrado com Sucesso!", 1);
-        out.println(res.toJson());
+        out.println(action);
         out.close();
 
     }

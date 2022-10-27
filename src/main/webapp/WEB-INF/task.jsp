@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
+<%@ page import="java.util.List,java.util.Date,site.entities.User"%>
+
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -13,6 +15,8 @@
 </c:set>
 
 <c:set var="body">
+	
+	<% Date dtCurrent = new Date(); %>
 
 	<header>
 		<nav class="navbar header-main">
@@ -202,8 +206,8 @@
 					<div class="col-12 col-md">
 						<div class="d-flex">
 							<input type="text" class="form-control input-default input-search border-0"
-								id="input-search-task" name="input-search-task" />
-							<button class="btn input-default border-0 icons-menu-tasks" type="submit">
+								id="input-search-task" name="input-search-task" value="${search}" />
+							<button id="btn-search-tasks" class="btn input-default border-0 icons-menu-tasks" type="submit">
 								<i class="far fa-search"></i>
 							</button>
 						</div>
@@ -221,87 +225,91 @@
 			<div class="list-tasks py-2">
 				<h2>Minhas Tarefas</h2>
 				<div id="list-my-tasks" class="list-group py-3 gap-3">
-					<div class="list-group-item list-group-item-action border rounded-4 fs-4 fundo-task">
+					
+					<c:if test="${pTasks.size() == 0}">
+					
+					<span class="empty">Nenhuma tarefa pendente encontrada, Adicione uma!</span>
+					
+					</c:if>
+					
+					<c:forEach var="task" varStatus="status" items="${pTasks}">
+					
+					<div class="list-group-item list-group-item-action border rounded-4 fs-4 py-1 fundo-task">
 						<div class="row">
-							<div class="col-5">
-								<div class="form-check">
-									<label class="form-check-label" for="input-check-task">Comprar mala</label>
-									<input class="form-check-input" type="checkbox" value="" id="input-check-task"
-										name="input-check-task" checked>
+							<div class="col-12 col-md-6">
+								<div class="d-flex align-items-start gap-3">
+									<input class="form-check-input mt-2" type="checkbox" value="${task.idTask}" id="input-check-task" name="input-check-task">
+									<label class="form-check-label d-flex flex-column " for="input-check-task">
+										<span>${task.title}</span>
+										<small class="fs-6 d-inline-block text-truncate text-task-desc">
+										${task.description}
+										</small>
+									</label>
 								</div>
 							</div>
-							<div class="col-7 d-flex justify-content-end align-items-center gap-5">
-								<span class="fs-6">26 de Agosto de 2022</span>
-								<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal"
-									data-bs-target="#modal-add-tasks">
+							<div class="col d-flex justify-content-end align-items-center gap-5">
+								
+								<span class="fs-6">
+									
+									<c:if test="${task.dtLimit == null}">
+									SEM DATA
+									</c:if>
+									
+									${task.getDtConvert(task.dtLimit)}
+								
+								</span>
+								<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks" data-task="${task.idTask}">
 									<i class="far fa-pen"></i>
 								</a>
 							</div>
 						</div>
 					</div>
-					<div class="list-group-item list-group-item-action border rounded-4 fs-4 fundo-task">
-						<div class="row">
-							<div class="col-5">
-								<div class="form-check">
-									<label class="form-check-label" for="input-check-task2">Comprar passagem</label>
-									<input class="form-check-input" type="checkbox" value="" id="input-check-task2"
-										name="input-check-task">
-								</div>
-							</div>
-							<div class="col-7 d-flex justify-content-end align-items-center gap-5">
-								<span class="fs-6">26 de Agosto de 2022</span>
-								<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal"
-									data-bs-target="#modal-add-tasks">
-									<i class="far fa-pen"></i>
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="list-group-item list-group-item-action border rounded-4 fs-4 fundo-task">
-						<div class="row">
-							<div class="col-5">
-								<div class="form-check">
-									<label class="form-check-label" for="input-check-task3">Reservar hotel</label>
-									<input class="form-check-input" type="checkbox" value="" id="input-check-task3"
-										name="input-check-task">
-								</div>
-							</div>
-							<div class="col-7 d-flex justify-content-end align-items-center gap-5">
-								<span class="fs-6">26 de Agosto de 2022</span>
-								<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks">
-									<i class="far fa-pen"></i>
-								</a>
-							</div>
-						</div>
-					</div>
+						
+					</c:forEach>
+					
 				</div>
 			</div>
 
 			<!-- Done tasks list -->
-			<div class="list-tasks-resolved">
+			<div id="list-my-tasks-complete" class="list-tasks-resolved">
+				
+				<c:if test="${cTasks.size() > 0}">
 				<a class="link-dark text-decoration-none d-flex align-items-center gap-2" data-bs-toggle="collapse"
 					href="#collapse-tasks" role="button" aria-expanded="false" aria-controls="collapse-tasks">
 					<i class="fal fa-chevron-down"></i>
 					<span>Concluída</span>
-					<span class="text-muted">1</span>
+					<span class="text-muted">${cTasks.size()}</span>
 				</a>
+				</c:if>
 				<div class="collapse" id="collapse-tasks">
 					<div class="list-group py-3 gap-3">
+						
+						<c:forEach var="task" varStatus="status" items="${cTasks}">
+						
 						<div class="list-group-item list-group-item-secondary border rounded-4 fs-4">
 							<div class="row">
 								<div class="col-5">
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="" id="input-check-task-resolved" name="input-check-task-resolved" checked>
+										<input class="form-check-input" type="checkbox" value="${task.idTask}" id="input-check-task-resolved" name="input-check-task-resolved" checked>
 										<label class="form-check-label text-decoration-line-through" for="input-check-task-resolved">
-											Tarefa Pronta
+											${task.title}
 										</label>
 									</div>
 								</div>
 								<div class="col-7 d-flex justify-content-end align-items-center gap-5">
-									<span class="fs-6">26 de Agosto de 2022</span>
+									<span class="fs-6">
+										<c:if test="${task.dtLimit == null}">
+										Sem data
+										</c:if>
+										
+										${task.getDtConvert(task.dtLimit)}
+									</span>
 								</div>
 							</div>
 						</div>
+						
+						</c:forEach>
+						
 					</div>
 				</div>
 			</div>

@@ -24,7 +24,7 @@ $(".theme-buttons").on("click", function(e) {
 });
 
 /*
-    Initialization Modals' Events
+    Initialization Events Modals
 */
 
 // Modal Add Tasks
@@ -62,7 +62,7 @@ $("#modal-add-lists").on("show.bs.modal", function (e) {
 });
 
 /*
-    Form and Submit Modals' Events
+    Form and Submit Events Modals
 */
 
 // Form Modal Add Tasks
@@ -133,4 +133,20 @@ $("#form-modal-add-lists").on("submit", function(e) {
 
     }
 
+});
+
+/*
+	Search Tasks
+*/
+
+// button para fazer a pesquisa das tarefas
+$("#form-search-tasks").on("submit", function(event) {
+	
+	event.preventDefault(); // previne a ação padrão
+	
+	let input = $("#input-search-task").val();
+	
+	$("#list-my-tasks").load( CONTEXT_PATH + `/tasks?s=${input} #list-my-tasks >*`);
+	$("#list-my-tasks-complete").load( CONTEXT_PATH + `/tasks?s=${input} #list-my-tasks-complete >*`);
+	
 });

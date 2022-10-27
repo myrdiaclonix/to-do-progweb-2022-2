@@ -232,11 +232,18 @@
     background-color: #55224f;
 }
 
+.text-task-desc {
+	max-width: 300px;
+}
+
 /* Resizable Elements */
 @media screen and (max-width: 768px) {
     .img-logo {
         max-width: 50px;
     }
+    .text-task-desc {
+	max-width: 150px;
+	}
 }
 
 .input-custom:focus {

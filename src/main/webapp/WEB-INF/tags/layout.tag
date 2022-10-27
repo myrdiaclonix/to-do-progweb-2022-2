@@ -35,6 +35,7 @@
 	<!-- Scripts -->
 	<script src="<%=request.getContextPath()%>/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="<%=request.getContextPath()%>/public/plugins/jquery/jquery-3.6.1.min.js"></script>
+	<script src="<%=request.getContextPath()%>/public/js/utils.js"></script>
 
 	<jsp:invoke fragment="end" />
 </body>

@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import site.dao.UsuarioDAO;
-import site.entities.Usuario;
+import site.dao.UserDAO;
+import site.entities.User;
 import site.utils.ResponseJson;
 
 /**
@@ -28,7 +28,7 @@ import site.utils.ResponseJson;
 public class UserController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private UsuarioDAO dao = new UsuarioDAO();
+    private UserDAO dao = new UserDAO();
     
     public UserController() {
         super();
@@ -38,9 +38,9 @@ public class UserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Usuario> usuarios = dao.listAll();
+        List<User> usuarios = dao.findAll();
         
-        for(Usuario jg : usuarios) {
+        for(User jg : usuarios) {
             System.out.println(jg.getEmail());
         }
 
@@ -99,7 +99,7 @@ public class UserController extends HttpServlet {
         }
         
         // Check User's e-mail
-        List<Usuario> teste = dao.listByEmail(email);
+        List<User> teste = dao.listByEmail(email);
         if(teste != null && teste.size() > 0) {
             res.setMsg("Usuário Já Cadastrado!");
             out.println(res.toJson());
@@ -108,7 +108,7 @@ public class UserController extends HttpServlet {
         } 
 
         // Add Usuario
-        Usuario us = new Usuario(null, email, pass);        
+        User us = new User(null, email, pass);        
         boolean save = dao.Save(us);
         
         if(!save) {

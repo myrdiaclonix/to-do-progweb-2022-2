@@ -1,1 +1,5 @@
-INSERT IGNORE INTO usuarios (id, email, password) VALUES (1, "teste@email.com", "12345678")
+INSERT IGNORE INTO users (id, email, password) VALUES (1, "teste@email.com", "12345678")
+INSERT IGNORE INTO tasks (id, idUser, title, description, status, dtLimit, dtComplete) VALUES (1, 1, "Fazer Compras", "Ir ao mercado mais perto", 0, null, null)
+INSERT IGNORE INTO tasks (id, idUser, title, description, status, dtLimit, dtComplete) VALUES (2, 1, "Comprar Roupas", "Ir ao shopping", 1, "2022-10-31 10:00", null)
+INSERT IGNORE INTO tasks (id, idUser, title, description, status, dtLimit, dtComplete) VALUES (3, 1, "Trabalhar", "Ir ao trabalho", 1, "2022-10-27 11:00", null)
+INSERT IGNORE INTO tasks (id, idUser, title, description, status, dtLimit, dtComplete) VALUES (4, 1, "Fazer academia", "Ir a academia", 0, "2022-10-20 18:00", null)
