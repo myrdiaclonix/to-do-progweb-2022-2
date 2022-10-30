@@ -5,6 +5,7 @@
 		<non-jta-data-source>jdbc/mysql</non-jta-data-source>
 		<class>site.entities.Task</class>
 		<class>site.entities.User</class>
+		<class>site.entities.Lista</class>
 		<properties>
 			<property name="javax.persistence.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.url" value="jdbc:mysql://localhost:3306/to-do"/>

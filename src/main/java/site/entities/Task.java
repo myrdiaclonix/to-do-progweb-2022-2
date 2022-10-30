@@ -51,6 +51,10 @@ public class Task implements Serializable {
     @JoinColumn(name="idUser", referencedColumnName="id", nullable = false)  
 	private User user;
     
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="idLista", referencedColumnName="id", nullable = false)  
+    private Lista lista;
+    
 	public Task() {
 	}
 
@@ -62,10 +66,11 @@ public class Task implements Serializable {
         this.dtLimit = dtLimit;
         this.dtComplete = null;
         this.user = null;
+        this.lista = null;
     }
     
     public Task(Integer idTask, String title, String description, Integer status, Timestamp dtLimit,
-            Timestamp dtComplete, User user) {
+            Timestamp dtComplete, User user, Lista lista) {
         this.idTask = idTask;
         this.title = title;
         this.description = description;
@@ -73,6 +78,7 @@ public class Task implements Serializable {
         this.dtLimit = dtLimit;
         this.dtComplete = dtComplete;
         this.user = user;
+        this.lista = lista;
     }
 
     public Integer getIdTask() {
@@ -129,6 +135,14 @@ public class Task implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    
+    public Lista getlista() {
+        return lista;
+    }
+
+    public void setlista(Lista lista) {
+        this.lista = lista;
     }
     
     public String getDtConvert(java.sql.Timestamp dt) {
