@@ -2,11 +2,8 @@ package site.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -17,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import site.dao.ListaDAO;
 import site.dao.TaskDAO;
+import site.entities.Lista;
 import site.entities.Task;
-import site.entities.User;
 import site.utils.ResponseJson;
 
 /**
@@ -33,7 +31,8 @@ import site.utils.ResponseJson;
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private TaskDAO dao = new TaskDAO();
+    private TaskDAO daoTask = new TaskDAO();
+    private ListaDAO daoLista = new ListaDAO();
     Date data = new Date();
     
     public TaskController() {
@@ -44,16 +43,30 @@ public class TaskController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String search = request.getParameter("s");
+        String search = request.getParameter("s"); // parametro s => search
+        String l = request.getParameter("l"); // parametro l => lista
+        Integer idLista = l != null && l.isBlank() || l == null ? 0 : Integer.parseInt(l); // converte l para inteiro
         
         search = search == null ? "" : search;
+        idLista = idLista == null || idLista == 0 ? null : idLista;
         
-        List<Task> pTasks = dao.findByTitleStatus(search, 0);
-        List<Task> cTasks = dao.findByTitleStatus(search, 1, 1);
+        // Tarefas pendentes e concluidas
+        List<Task> pTasks = daoTask.findByTasks(search, idLista, 0);
+        List<Task> cTasks = daoTask.findByTasks(search, idLista, 1, 1);
+        
+        // Todas as listas e lista atual
+        List<Lista> listas = daoLista.findAll();
+        Lista listaTask = idLista != null && idLista > 0 ? daoLista.find(idLista) : null;
+        
+        for(Task ts : pTasks) {
+            System.out.println(ts.getlista());
+        }
         
         request.setAttribute("pTasks", pTasks);
         request.setAttribute("cTasks", cTasks);
         request.setAttribute("search", search);
+        request.setAttribute("listas", listas);
+        request.setAttribute("listaTask", listaTask);
         request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 

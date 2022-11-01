@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,12 +48,12 @@ public class Task implements Serializable {
     @Column(name = "dtComplete", nullable = true)
     private java.sql.Timestamp dtComplete;
     
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name="idUser", referencedColumnName="id", nullable = false)  
 	private User user;
     
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="idLista", referencedColumnName="id", nullable = false)  
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinColumn(name="idLista", referencedColumnName="id", nullable = true)  
     private Lista lista;
     
 	public Task() {

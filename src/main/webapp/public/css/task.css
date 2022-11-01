@@ -205,7 +205,7 @@
     display: none;
 }
 
-.btn-list-edit.active {
+.btn-list-edit.actual {
     display: block;
 }
 

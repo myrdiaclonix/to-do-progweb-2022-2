@@ -24,7 +24,7 @@ public class ListaDAO {
     
     @SuppressWarnings("unchecked")
     public List<Lista> findAll() {
-        return this.em.createQuery("SELECT t FROM Lista t").getResultList();
+        return this.em.createQuery("SELECT l FROM Lista l ORDER BY l.title").getResultList();
     }
     
     @SuppressWarnings("unchecked")

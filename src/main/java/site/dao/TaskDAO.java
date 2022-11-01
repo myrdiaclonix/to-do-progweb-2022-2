@@ -22,22 +22,49 @@ public class TaskDAO {
         return this.em.find(Task.class, id);
     }
     
+    @SuppressWarnings("unchecked")
     public List<Task> findAll() {
         return this.em.createQuery("SELECT t FROM Task t").getResultList();
     }
     
-    public List<Task> findByTitleStatus(String title, Integer status) {
-        return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus ORDER BY -t.dtLimit DESC")
-                .setParameter("tTitle", "%"+title+"%")
-                .setParameter("tStatus", status)
-                .getResultList();
+    @SuppressWarnings("unchecked")
+    public List<Task> findByTasks(String title, Integer lista, Integer status) {
+        
+        if(lista == null) {
+            return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
+                    + "ORDER BY -t.dtLimit DESC")
+                    .setParameter("tTitle", "%"+title+"%")
+                    .setParameter("tStatus", status)
+                    .getResultList();
+        } else {
+            return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
+                    + "AND t.lista.idLista = :tLista ORDER BY -t.dtLimit DESC")
+                    .setParameter("tTitle", "%"+title+"%")
+                    .setParameter("tStatus", status)
+                    .setParameter("tLista", lista)
+                    .getResultList();
+        }
+        
+        
     }
     
-    public List<Task> findByTitleStatus(String title, Integer status, Integer order) {
-        return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus ORDER BY -t.dtComplete")
-                .setParameter("tTitle", "%"+title+"%")
-                .setParameter("tStatus", status)
-                .getResultList();
+    @SuppressWarnings("unchecked")
+    public List<Task> findByTasks(String title, Integer lista, Integer status, Integer order) {
+        
+        if(lista == null) {
+            return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
+                    + "ORDER BY -t.dtComplete")
+                    .setParameter("tTitle", "%"+title+"%")
+                    .setParameter("tStatus", status)
+                    .getResultList();
+        } else {
+            return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
+                    + "AND t.lista.idLista = :tLista ORDER BY -t.dtComplete")
+                    .setParameter("tTitle", "%"+title+"%")
+                    .setParameter("tStatus", status)
+                    .setParameter("tLista", lista)
+                    .getResultList();
+        }
     }
     
     public Task save(Task entity) {

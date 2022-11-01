@@ -2,16 +2,6 @@
     Menu Tasks' Events
 */
 
-// Event onclick for menu-task
-// $(document).on("click", ".menu-task", function (e) { TESTANDO
-
-$(".menu-task").on("click", function(e) {
-    $(".menu-task").removeClass("actual");
-    $(".menu-task .btn-list-edit").removeClass("active");
-    $(this).addClass("actual");
-    $(this).find(".btn-list-edit").addClass("active");
-});
-
 /*
     Element Modals' Events
 */
@@ -40,23 +30,6 @@ $("#modal-add-tasks").on("show.bs.modal", function (e) {
     } else {
 
         $(this).find(".modal-title span").text("Adicionar tarefa");
-    }
-
-});
-
-// Modal Add Lists
-$("#modal-add-lists").on("show.bs.modal", function (e) {
-
-    let btn = $(e.relatedTarget);
-    let type = btn.attr("data-type") != undefined ? 1 : 0;
-
-    if (type == 0) {
-
-        $(this).find(".modal-title span").text("Editar lista");
-
-    } else {
-
-        $(this).find(".modal-title span").text("Adicionar lista");
     }
 
 });
@@ -107,34 +80,6 @@ $("#form-modal-add-tasks").on("submit", function(e) {
 
 });
 
-// Form Modal Add Lists
-$("#form-modal-add-lists").on("submit", function(e) {
-
-    e.preventDefault();
-
-    let json = {
-        title : $("#input-title-list").val()
-    };
-
-    if((json.title).length > 0 ) {
-        $("#menu-list-tasks").append(`
-        <a href="#list-${json.title}" class="list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5">
-            <span>
-                <i class="far fa-bars icons-menu-tasks"></i>
-                ${json.title}
-            </span>
-            <span class="btn-list-edit float-end" data-bs-toggle="modal" data-bs-target="#modal-add-lists">
-                <i class="fad fa-edit icons-menu-tasks"></i>
-            </span>
-        </a>
-        `);
-        
-        alert("Lista foi adicionada com sucesso");
-
-    }
-
-});
-
 /*
 	Search Tasks
 */
@@ -142,11 +87,24 @@ $("#form-modal-add-lists").on("submit", function(e) {
 // button para fazer a pesquisa das tarefas
 $("#form-search-tasks").on("submit", function(event) {
 	
-	event.preventDefault(); // previne a ação padrão
+	// Previne a ação padrão
+	event.preventDefault(); 
 	
-	let input = $("#input-search-task").val();
+	let params = getParametersURL();
+
+	// Pega o valor do input de pesquisa das tarefas
+	let search = $("#input-search-task").val();
 	
-	$("#list-my-tasks").load( CONTEXT_PATH + `/tasks?s=${input} #list-my-tasks >*`);
-	$("#list-my-tasks-complete").load( CONTEXT_PATH + `/tasks?s=${input} #list-my-tasks-complete >*`);
+	// Pega valor do parametro "l" informado na barra de pesquisa do navegador
+	let lista = params['l'] != undefined && params['l'] > 0 ? params['l'] : 0;
+	
+	// Constroi a URL
+	let url = `/tasks?s=${search}&l=${lista}`;
+	
+	// Atualiza a lista de tarefas pendentes e concluidas
+	$("#list-my-tasks").load( CONTEXT_PATH + `${url} #list-my-tasks >*`);
+	$("#list-my-tasks-complete").load( CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
+	
+	replaceSearchURL(url);
 	
 });

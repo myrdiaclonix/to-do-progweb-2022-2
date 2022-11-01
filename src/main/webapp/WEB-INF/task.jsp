@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="headTitle">
-	<title>Minhas Tarefas</title>
+	<title>Tasks | To-Do</title>
 </c:set>
 
 <c:set var="head">
@@ -141,7 +141,11 @@
 		<!-- Tasks list menu -->
 		<article id="menu-tasks" class="col-12 col-md-3 px-0 py-2">
 			<div class="list-group rounded-0">
-				<a href="#home" class="list-group-item list-group-item-action border-0 list-item-tasks fs-5 menu-task actual"> 
+			
+				<c:if test="${listaTask.idLista != null}">${active = ""}</c:if>
+				<c:if test="${listaTask.idLista == null}"><span class="d-none">${active = "actual"}</span></c:if>
+				
+				<a href="#home" class="list-group-item list-group-item-action border-0 list-item-tasks fs-5 menu-task ${active}"> 
 					<span>
 						<i class="fas fa-home-lg-alt icons-menu-tasks"></i>
 						Minhas Tarefas
@@ -156,24 +160,22 @@
 			</div>
 			<hr>
 			<div id="menu-list-tasks" class="list-group rounded-0">
-				<a href="#list-viagem" class="list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5">
+				<c:forEach var="ls" varStatus="status" items="${listas}">
+				
+				<c:if test="${ls.idLista != listaTask.idLista}">${active = ""}</c:if>
+				<c:if test="${ls.idLista == listaTask.idLista}"><span class="d-none">${active = "actual"}</span></c:if>
+				
+				<a href="#lista-${ls.idLista}" class='list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5 ${active}'>
 					<span>
 						<i class="far fa-bars icons-menu-tasks"></i>
-						Viagem
+						${ls.title}
 					</span>
-					<span class="btn-list-edit float-end" data-bs-toggle="modal" data-bs-target="#modal-add-lists">
+					<span class="btn-list-edit float-end ${active}" data-bs-toggle="modal" data-bs-target="#modal-add-lists">
 						<i class="fad fa-edit icons-menu-tasks"></i>
 					</span>
 				</a>
-				<a href="#list-niver" class="list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5">
-					<span>
-						<i class="far fa-bars icons-menu-tasks"></i>
-						Aniversário
-					</span>
-					<span class="btn-list-edit float-end" data-bs-toggle="modal" data-bs-target="#modal-add-lists">
-						<i class="fad fa-edit icons-menu-tasks"></i>
-					</span>
-				</a>
+				
+				</c:forEach>
 				
 			</div>
 
@@ -222,8 +224,15 @@
 			</div>
 
 			<!-- To do tasks list -->
-			<div class="list-tasks py-2">
-				<h2>Minhas Tarefas</h2>
+			<div id="list-all-tasks" class="list-tasks py-2">
+				
+				<c:if test="${listaTask == null}">
+					<h2>Minhas Tarefas</h2>
+				</c:if>
+				<c:if test="${listaTask != null}">
+					<h2>${listaTask.title}</h2>
+				</c:if>
+				
 				<div id="list-my-tasks" class="list-group py-3 gap-3">
 					
 					<c:if test="${pTasks.size() == 0}">
@@ -870,6 +879,7 @@
 </c:set>
 
 <c:set var="end">
+	<script src="<%=request.getContextPath()%>/public/js/lista.js"></script>
 	<script src="<%=request.getContextPath()%>/public/js/task.js"></script>
 </c:set>
 
