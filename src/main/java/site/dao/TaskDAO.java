@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -69,6 +70,12 @@ public class TaskDAO {
     
     public Task save(Task entity) {
         
+        if (entity.getIdTask() == null)
+        {
+            Query query = this.em.createQuery("select max(t.idTask) from Task t");
+            entity.setIdTask(Integer.parseInt(query.getSingleResult().toString()) + 1);
+            System.out.println(entity.getIdTask());
+        }
         Task task = this.find(entity.getIdTask());
         
         if (task != null) {

@@ -41,21 +41,54 @@ $("#modal-add-tasks").on("show.bs.modal", function (e) {
 // Form Modal Add Tasks
 $("#form-modal-add-tasks").on("submit", function(e) {
 
-    e.preventDefault();
+	e.preventDefault();
 
-    let json = {
-        title : $("#input-title-task").val(),
-        date : $("#input-date-limit").val(),
-    };
-    
-    if((json.title).length > 0 && (json.date).length > 0 ) {
-        
-        let limit = new Date(json.date);
-        let data = limit.toLocaleDateString("pt-BR", { day: 'numeric', month: 'long', year: 'numeric' });
-        let hora = limit.toLocaleTimeString("pt-BR", { hour: 'numeric', minute: 'numeric'});
-        let num = $("#list-my-tasks").children("div").length + 1;
+	$.ajax({
+		url: CONTEXT_PATH + "/tasks",
+		type: 'POST',
+		data: $(this).serialize() + "&action=addTask",
+		beforeSend: function() {
+			console.log("Enviando...");
+		}
+	})
+		.done(function(msg)
+		{
+			if (isJson(msg))
+			{
+				let json = JSON.parse(msg);
+				if (json.status == 1)
+				{
+					alert(json.msg);
+					window.location.replace(CONTEXT_PATH + "/tasks");
+				}
+				else
+				{
+					console.log(json.msg);
+				}
+			}
+			else
+			{
+				console.log(msg);
+			}
+		})
+		.fail(function(jqXHR, textStatus, msg)
+		{
+		     alert(msg);
+		});
 
-        $("#list-my-tasks").prepend(`
+	let json = {
+		title: $("#input-title-task").val(),
+		date: $("#input-date-limit").val(),
+	};
+
+	if ((json.title).length > 0 && (json.date).length > 0) {
+
+		let limit = new Date(json.date);
+		let data = limit.toLocaleDateString("pt-BR", { day: 'numeric', month: 'long', year: 'numeric' });
+		let hora = limit.toLocaleTimeString("pt-BR", { hour: 'numeric', minute: 'numeric' });
+		let num = $("#list-my-tasks").children("div").length + 1;
+
+		$("#list-my-tasks").prepend(`
             <div class="list-group-item list-group-item-action border rounded-4 fs-4 fundo-task">
                 <div class="row">
                     <div class="col-5">
@@ -73,10 +106,10 @@ $("#form-modal-add-tasks").on("submit", function(e) {
                 </div>
             </div>
         `);
-        
-        alert("Tarefa foi adicionada com sucesso");
 
-    }
+		//alert("Tarefa foi adicionada com sucesso.");
+
+	}
 
 });
 

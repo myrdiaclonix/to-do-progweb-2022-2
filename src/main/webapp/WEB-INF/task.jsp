@@ -340,7 +340,7 @@
 					</h5>
 				</div>
 				<div class="modal-body modal-body-default">
-					<form id="form-modal-add-tasks" class="row gap-3">
+					<form method="post" id="form-modal-add-tasks" class="row gap-3">
 						<div class="col-12">
 							<input type="text" class="form-control input-custom bd ps-0" id="input-title-task" name="input-title-task" placeholder="Título" autocomplete="off">
 						</div>
@@ -380,7 +380,7 @@
 
 						<div class="col-12 pt-3 d-flex justify-content-between gap-5">
 							<button type="button" class="btn rounded-5 btn-modal-default modal-back shadow-sm" data-bs-dismiss="modal">Cancelar</button>
-							<button type="submit" class="btn rounded-5 btn-modal-default shadow-sm">Adicionar</button>
+							<button type="submit" class="btn rounded-5 btn-modal-default modal-back shadow-sm" data-bs-dismiss="modal">Adicionar</button>
 						</div>
 					</form>
 				</div>
