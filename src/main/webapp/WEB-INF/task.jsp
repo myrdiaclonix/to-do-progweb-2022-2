@@ -328,59 +328,66 @@
 	<footer></footer>
 
 	<!-- Modals -->
-	<div class="modal fade" id="modal-add-tasks" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-add-tasks" aria-hidden="true">
+	<div class="modal fade" id="modal-add-tasks" data-bs-keyboard="false"
+		tabindex="-1" aria-labelledby="modal-add-tasks" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content border-0">
-				<div class="modal-header modal-header-default border-0 justify-content-center">
+				<div
+					class="modal-header modal-header-default border-0 justify-content-center">
 					<h5 class="modal-title fw-normal text-white">
-						<i class="fad fa-check"></i>
-						<span>
-							Adicionar tarefa
-						</span>
+						<i class="fad fa-check"></i> <span> Adicionar tarefa </span>
 					</h5>
 				</div>
 				<div class="modal-body modal-body-default">
 					<form method="post" id="form-modal-add-tasks" class="row gap-3">
 						<div class="col-12">
-							<input type="text" class="form-control input-custom bd ps-0" id="input-title-task" name="input-title-task" placeholder="Título" autocomplete="off">
+							<input type="text" class="form-control input-custom bd ps-0"
+								id="input-title-task" name="input-title-task"
+								placeholder="Título" autocomplete="off">
 						</div>
 
 						<div class="col-12">
-							<input type="datetime-local" class="form-control input-custom" id="input-date-limit" name="input-date-limit" placeholder="Finalizar em...">
+							<input type="datetime-local" class="form-control input-custom"
+								id="input-date-limit" name="input-date-limit"
+								placeholder="Finalizar em...">
 						</div>
 
 						<div class="col-12">
-							<textarea class="form-control input-custom" name="textarea-description"
-								id="textarea-description" placeholder="Descrição" cols="30" rows="3"></textarea>
+							<textarea class="form-control input-custom"
+								name="textarea-description" id="textarea-description"
+								placeholder="Descrição" cols="30" rows="3"></textarea>
 						</div>
 
 						<div class="col-12">
-							<select id="select-list-task" class="form-select input-custom" name="opcao">
-								<option>Escolha uma lista...</option>
-								<option>Viagem</option>
-								<option>Aniversário</option>
-								<option>Faculdade</option>
+							<select id="select-list-task" class="form-select input-custom"
+								name="task-list-option">
+								<c:forEach var="ls" items="${listas}">
+									<option value="${ls.idLista}">${ls.title}</option>
+								</c:forEach>
 							</select>
 						</div>
 
 						<div class="col-12">
 							<div class="input-group mb-3">
-								<label class="input-group-text input-custom" for="select-tag-task">
-									<i class="fas fa-tag"></i>
+								<label class="input-group-text input-custom"
+									for="select-tag-task"> <i class="fas fa-tag"></i>
 								</label>
-								<select class="form-select input-custom border-start-0" id="select-tag-task">
-								  <option value="0" data-color="0">Adicione uma etiqueta</option>
-								  <option value="1" data-color="000000">Faz agora</option>
-								  <option value="2" data-color="000000">Se preocupe</option>
-								  <option value="3" data-color="000000">Faz quando der</option>
-								  <option value="4" data-color="000000">Faz quando der</option>
+								<select class="form-select input-custom border-start-0"
+									id="select-tag-task">
+									<c:forEach var="tag" varStatus="status" items="${userTags}">
+										<option value="${status.index}">${tag.name}</option>
+									</c:forEach>
 								</select>
 							</div>
 						</div>
 
 						<div class="col-12 pt-3 d-flex justify-content-between gap-5">
-							<button type="button" class="btn rounded-5 btn-modal-default modal-back shadow-sm" data-bs-dismiss="modal">Cancelar</button>
-							<button type="submit" class="btn rounded-5 btn-modal-default modal-back shadow-sm" data-bs-dismiss="modal">Adicionar</button>
+							<button type="button"
+								class="btn rounded-5 btn-modal-default modal-back shadow-sm"
+								data-bs-dismiss="modal">Cancelar</button>
+							<button type="submit"
+								class="btn rounded-5 btn-modal-default modal-back shadow-sm"
+								data-bs-dismiss="modal">Adicionar</button>
 						</div>
 					</form>
 				</div>

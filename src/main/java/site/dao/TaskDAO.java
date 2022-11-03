@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -68,29 +69,18 @@ public class TaskDAO {
         }
     }
     
-    public Task save(Task entity) {
-        
-        if (entity.getIdTask() == null)
-        {
-            Query query = this.em.createQuery("select max(t.idTask) from Task t");
-            entity.setIdTask(Integer.parseInt(query.getSingleResult().toString()) + 1);
-            System.out.println(entity.getIdTask());
+    public Task save(Task t) {
+        Task ts = null;
+        EntityTransaction trn = this.em.getTransaction();
+        trn.begin();
+        try {
+            this.em.merge(t);
+            trn.commit();
+            ts = t;
+        } catch (Exception e) {
+            trn.rollback();
         }
-        Task task = this.find(entity.getIdTask());
-        
-        if (task != null) {
-            try {
-                BeanUtils.copyProperties(task, entity);
-                this.em.merge(task);
-                return task;
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            this.em.persist(entity);
-            return entity;
-        }
+        return ts;
     }
 
 }

@@ -3,9 +3,12 @@ package site.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import site.dao.ListaDAO;
+import site.dao.TagDAO;
 import site.dao.TaskDAO;
 import site.entities.Lista;
+import site.entities.Tag;
 import site.entities.Task;
 import site.entities.User;
 import site.utils.ResponseJson;
@@ -35,7 +40,10 @@ public class TaskController extends HttpServlet {
 
     private TaskDAO daoTask = new TaskDAO();
     private ListaDAO daoLista = new ListaDAO();
-    Date data = new Date();
+    
+    @EJB
+    private TagDAO daoTag;
+    Date date = new Date();
     
     public TaskController() {
         super();
@@ -44,6 +52,14 @@ public class TaskController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // For test purposes.
+        User user = new User(1, "teste@email.com", "12345678");
+        request.getSession().setAttribute("user", user);
+        
+        // User associated tags.
+        List<Tag> userTags = daoTag.userTags((User) request.getSession().getAttribute("user"));
+        request.getSession().setAttribute("userTags", userTags);
         
         String search = request.getParameter("s"); // parametro s => search
         String l = request.getParameter("l"); // parametro l => lista
@@ -84,14 +100,17 @@ public class TaskController extends HttpServlet {
 
         if (action.equals("addTask")) {
             
-            // For test purposes
-            User user = new User(1, "teste@email.com", "12345678");
-            request.getSession().setAttribute("user", user);
-            
             String title = request.getParameter("input-title-task");
             String description = request.getParameter("textarea-description");
-            
-            Task t = new Task(null, title, description, 0, null, null, user, null);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            LocalDateTime localDate = LocalDateTime.parse(request.getParameter("input-date-limit"), formatter);
+            Timestamp date = Timestamp.valueOf(localDate);
+
+            Integer listId = Integer.parseInt(request.getParameter("task-list-option"));
+
+            Task t = new Task(null, title, description, 0, date, null, (User) request.getSession().getAttribute("user"),
+                    daoLista.find(listId));
             daoTask.save(t);
             
         } else {

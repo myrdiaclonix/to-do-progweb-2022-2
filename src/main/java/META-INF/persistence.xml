@@ -6,6 +6,7 @@
 		<class>site.entities.Task</class>
 		<class>site.entities.User</class>
 		<class>site.entities.Lista</class>
+		<class>site.entities.Tag</class>
 		<properties>
 			<property name="javax.persistence.driver" value="com.mysql.cj.jdbc.Driver"/>
 			<property name="javax.persistence.url" value="jdbc:mysql://localhost:3306/to-do"/>
@@ -13,8 +14,8 @@
 			<property name="javax.persistence.password" value=""/>
 			
 			<property name="eclipselink.logging.level" value="ALL"/>
-<!-- 			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/> -->
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+<!-- 			<property name="javax.persistence.schema-generation.database.action" value="create"/> -->
 			<property name="javax.persistence.schema-generation.create-source" value="metadata-then-script"/>
 			<property name="javax.persistence.sql-load-script-source" value="META-INF/sql/seed.sql"/>
 		</properties>

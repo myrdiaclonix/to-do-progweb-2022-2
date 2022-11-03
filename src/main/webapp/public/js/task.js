@@ -40,9 +40,7 @@ $("#modal-add-tasks").on("show.bs.modal", function (e) {
 
 // Form Modal Add Tasks
 $("#form-modal-add-tasks").on("submit", function(e) {
-
 	e.preventDefault();
-
 	$.ajax({
 		url: CONTEXT_PATH + "/tasks",
 		type: 'POST',
@@ -51,29 +49,21 @@ $("#form-modal-add-tasks").on("submit", function(e) {
 			console.log("Enviando...");
 		}
 	})
-		.done(function(msg)
-		{
-			if (isJson(msg))
-			{
+		.done(function(msg) {
+			if (isJson(msg)) {
 				let json = JSON.parse(msg);
-				if (json.status == 1)
-				{
+				if (json.status == 1) {
 					alert(json.msg);
 					window.location.replace(CONTEXT_PATH + "/tasks");
-				}
-				else
-				{
+				} else {
 					console.log(json.msg);
 				}
-			}
-			else
-			{
+			} else {
 				console.log(msg);
 			}
 		})
-		.fail(function(jqXHR, textStatus, msg)
-		{
-		     alert(msg);
+		.fail(function(jqXHR, textStatus, msg) {
+			alert(msg);
 		});
 
 	let json = {
@@ -106,10 +96,10 @@ $("#form-modal-add-tasks").on("submit", function(e) {
                 </div>
             </div>
         `);
-
-		//alert("Tarefa foi adicionada com sucesso.");
-
 	}
+	
+//$("#list-my-tasks").load(CONTEXT_PATH + "/tasks #list-my-tasks");
+//$("#list-my-tasks-complete").load(CONTEXT_PATH + "/tasks #list-my-tasks-complete");
 
 });
 
