@@ -95,44 +95,66 @@ public class TaskController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        PrintWriter out = response.getWriter();
+        ResponseJson res = new ResponseJson();
+
         String action = request.getParameter("action");
 
         if (action.equals("addTask")) {
-            
+
             String title = request.getParameter("input-title-task");
             String description = request.getParameter("textarea-description");
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-            LocalDateTime localDate = LocalDateTime.parse(request.getParameter("input-date-limit"), formatter);
-            Timestamp date = Timestamp.valueOf(localDate);
+            String dateLimit = request.getParameter("input-date-limit");
 
             Integer listId = Integer.parseInt(request.getParameter("task-list-option"));
 
-            Task t = new Task(null, title, description, 0, date, null, (User) request.getSession().getAttribute("user"),
-                    daoLista.find(listId));
-            daoTask.save(t);
-            
-        } else {
-
-            response.setContentType("text/html; charset=UTF-8");
-            response.setCharacterEncoding("UTF-8");
-
-            PrintWriter out = response.getWriter();
-            Gson json = new Gson();
-            ResponseJson res = new ResponseJson();
-
-            if (action.equals("SLTKS")) {
-
-                String search = request.getParameter("input-search-task");
-                out.println(search);
-
+            boolean isOk = true;
+            if (title.isEmpty()) {
+                res.setMsg("Título inválido!");
+                isOk = false;
+                out.println(res.toJson());
+                out.close();
+            }
+            if (description.isEmpty()) {
+                res.setMsg("Descrição da tarefa inválida!");
+                isOk = false;
+                out.println(res.toJson());
+                out.close();
+            }
+            if (dateLimit.isEmpty()) {
+                res.setMsg("Data inválida!");
+                isOk = false;
+                out.println(res.toJson());
+                out.close();
             }
 
+            if (isOk) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                LocalDateTime localDate = LocalDateTime.parse(dateLimit, formatter);
+                Timestamp date = Timestamp.valueOf(localDate);
+                Task t = new Task(null, title, description, 0, date, null,
+                        (User) request.getSession().getAttribute("user"),
+                        daoLista.find(listId));
+                daoTask.save(t);
+            }
+
+            res.setMsg("Tarefa adiciona com sucesso!");
+            res.setStatus(1);
+
+            out.println(res.toJson());
+            out.close();
+
+        } else {
+            if (action.equals("SLTKS")) {
+                String search = request.getParameter("input-search-task");
+                out.println(search);
+            }
             out.println(action);
             out.close();
         }
-
     }
-
 }
