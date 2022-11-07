@@ -13,12 +13,13 @@ public class ResponseJson {
 	public ResponseJson() {
 		this.msg = "Erro na requisição!";
 		this.status = 0;
-		this.res = null;
+		this.res = new ArrayList<String>();
 	}
 	
 	public ResponseJson(String msg, Integer status) {
 		this.msg = msg;
 		this.status = status;
+        this.res = new ArrayList<String>();
 	}
 	
 	public ResponseJson(String msg, Integer status, ArrayList<String> res) {
@@ -50,6 +51,14 @@ public class ResponseJson {
 	public void setRes(ArrayList<String> res) {
 		this.res = res;
 	}
+	
+	public void addRes(String el) {
+	    this.res.add(el);
+	}
+	
+	public void removeRes(Integer el) {
+        this.res.remove(el);
+    }
 	
 	public String toJson() {
 		Gson json = new Gson();

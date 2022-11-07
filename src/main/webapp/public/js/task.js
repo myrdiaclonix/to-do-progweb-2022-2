@@ -22,6 +22,8 @@ $("#modal-add-tasks").on("show.bs.modal", function(e) {
 
 	let btn = $(e.relatedTarget);
 	let type = btn.attr("data-type") != undefined ? 1 : 0;
+	
+	$("#select-list-task").load(CONTEXT_PATH + `/tasks #select-list-task >*`);
 
 	if (type == 0) {
 
@@ -49,28 +51,28 @@ $("#form-modal-add-tasks").on("submit", function(e) {
 			console.log("Enviando...");
 		}
 	})
-		.done(function(msg) {
-			if (isJson(msg)) {
-				let json = JSON.parse(msg);
-				if (json.status == 1) {
-					let params = getParametersURL();
+	.done(function(msg) {
+		if (isJson(msg)) {
+			let json = JSON.parse(msg);
+			if (json.status == 1) {
+				let params = getParametersURL();
 
-					let search = params['s'] != undefined && (params['s']).length > 0 ? params['s'] : "";
-					let lista = params['l'] != undefined && params['l'] >= 0 ? params['l'] : 0;
+				let search = params['s'] != undefined && (params['s']).length > 0 ? params['s'] : "";
+				let lista = params['l'] != undefined && params['l'] >= 0 ? params['l'] : 0;
 
-					let url = `/tasks?s=${search}&l=${lista}`;
+				let url = `/tasks?s=${search}&l=${lista}`;
 
-					refreshListsTask(url);
-				} else {
-					alert(json.msg);
-				}
-			} else {
-				console.log(msg);
-			}
-		})
-		.fail(function(jqXHR, textStatus, msg) {
-			alert(msg);
-		});
+				refreshListsTask(url);
+			} 
+			
+			alert(json.msg);
+		} else {
+			console.log(msg);
+		}
+	})
+	.fail(function(jqXHR, textStatus, msg) {
+		alert(msg);
+	});
 });
 
 /*
@@ -103,6 +105,17 @@ $("#form-search-tasks").on("submit", function(event) {
 });
 
 function refreshListsTask(url) {
-	$("#list-my-tasks").load(CONTEXT_PATH + `${url} #list-my-tasks >*`);
+	$("#menu-tasks").load(CONTEXT_PATH + `${url} #menu-tasks >*`);
+	$("#list-all-tasks").load(CONTEXT_PATH + `${url} #list-all-tasks >*`);
 	$("#list-my-tasks-complete").load(CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
+}
+
+function refreshListsTaskActual() {
+	
+	let params = getParametersURL();
+	let search = params['s'] != undefined && (params['s']).length > 0 ? params['s'] : "";
+	let lista = params['l'] != undefined && params['l'] >= 0 ? params['l'] : 0;
+	let url = `/tasks?s=${search}&l=${lista}`;
+
+	refreshListsTask(url);
 }

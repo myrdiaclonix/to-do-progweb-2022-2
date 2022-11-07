@@ -2,8 +2,12 @@ package site.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import site.dao.ListaDAO;
 import site.entities.Lista;
+import site.entities.Task;
+import site.entities.User;
 import site.utils.ResponseJson;
 
 @WebServlet("/lists")
@@ -23,7 +29,8 @@ import site.utils.ResponseJson;
 public class ListaController extends HttpServlet{
     private static final long serialVersionUID = 1L;
     
-    private ListaDAO dao = new ListaDAO();
+    @EJB
+    private ListaDAO daoLista;
     
     public ListaController() {
         super();
@@ -37,8 +44,8 @@ public class ListaController extends HttpServlet{
         
         search = search == null ? "" : search;
         
-        List<Lista> pListas = dao.findByTitle(search);
-        List<Lista> cListas = dao.findByTitle(search);
+        List<Lista> pListas = null;
+        List<Lista> cListas = null;
         
         request.setAttribute("pListas", pListas);
         request.setAttribute("cListas", cListas);
@@ -52,38 +59,102 @@ public class ListaController extends HttpServlet{
 
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        
+
         PrintWriter out = response.getWriter();
         ResponseJson res = new ResponseJson();
-        
+
         String action = request.getParameter("action");
-        String title = request.getParameter("title");
-        String description = request.getParameter("description");
+        String code = request.getParameter("code");
+        Integer idLista = code != null ? Integer.parseInt(code) : null;
+
+        User user = (User) request.getSession().getAttribute("user");
         
-        if(title.equals("SLTKS")) {
+
+        if (action.equals("addLista") || action.equals("editLista")) {
+
+            String title = request.getParameter("input-title-list");
+            String description = request.getParameter("textarea-description-list");
             
-            String search = request.getParameter("input-search-lista");
-            out.println(search);
-        }
-        
-        if(title.isEmpty()) {
-            res.setMsg("É necessário inserir um Título para Lista!");
+            if (title == null || title != null && title.isEmpty()) {
+                res.setMsg("Título inválido!");
+                out.println(res.toJson());
+                return;
+            }
+            
+            if (idLista != null && idLista > 0) {
+                
+                Lista ls = daoLista.find(idLista);
+                
+                if(ls == null) {
+                    res.setMsg("Erro ação inválida!");
+                    out.println(res.toJson());
+                    return;
+                }
+                
+            }
+            
+            List<Lista> listas = daoLista.findByTitle(title, user.getId());
+
+            if(listas != null && listas.size() > 0 && listas.get(0).getIdLista() != idLista) {
+                res.setMsg("Já existe uma lista com esse título!");
+                out.println(res.toJson());
+                return;
+            }
+            
+            description = description != null && !description.isEmpty() ? description : null;
+            Lista list =  new Lista(idLista, title, description, user);
+            
+            Lista listRes = daoLista.save(list);
+
+            if(listRes == null) {
+                String msg = action.equals("editLista") ? "editar" : "adicionar";
+                res.setMsg("Erro ao " + msg + " lista!");
+            } else {
+                
+                String msg = action.equals("editLista") ? "editada" : "adicionada";
+                res.setMsg("Lista " + msg + " com sucesso!");
+                res.setStatus(1);
+            }
+            
             out.println(res.toJson());
-            out.close();
             return;
-        }
-        
-        Lista us = new Lista(null, title, description);        
-        Lista save = dao.save(us);
-        
-        if(save == null) {
-            res.setMsg("Erro ao Cadastrar Lista!");
+
+        } else if(action.equals("getLista")) {
+            
+            Lista ls = daoLista.findById(idLista, user.getId());
+            
+            if(ls != null) {
+                res.addRes(ls.getTitle());
+                res.addRes(ls.getDescription());
+                res.setMsg("Lista encontrada com sucesso!");
+                res.setStatus(1);
+            } 
+            
             out.println(res.toJson());
-            out.close();
             return;
+            
+        }
+        else if(action.equals("delLista") && idLista > 0) {
+            
+            boolean del = false;
+            Lista ls = daoLista.findById(idLista, user.getId());
+            
+            if(ls != null) {
+                del = daoLista.remove(ls);
+            } 
+            
+            if(del) {
+                res.setMsg("Lista removida com sucesso!");
+                res.setStatus(1);
+            } else {
+                res.setMsg("Erro ao remover a lista!");
+            }
+            
+            out.println(res.toJson());
+            return;
+            
         }
         
-        out.println(action);
-        out.close();
+        return;
     }
 }

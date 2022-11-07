@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +53,7 @@ public class Task implements Serializable {
     @JoinColumn(name="idUser", referencedColumnName="id", nullable = false)  
 	private User user;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade=CascadeType.REMOVE )
     @JoinColumn(name="idLista", referencedColumnName="id", nullable = true)  
     private Lista lista;
     

@@ -170,8 +170,9 @@
 						<i class="far fa-bars icons-menu-tasks"></i>
 						${ls.title}
 					</span>
-					<span class="btn-list-edit float-end ${active}" data-bs-toggle="modal" data-bs-target="#modal-add-lists">
-						<i class="fad fa-edit icons-menu-tasks"></i>
+					<span class="btn-list-edit float-end ${active}">
+						<i class="fad fa-edit icons-menu-tasks" data-bs-toggle="modal" data-bs-target="#modal-add-lists" data-lista="${ls.idLista}"></i>
+						<i class="fas fa-trash-alt icons-menu-tasks btn-remove-lista" data-lista="${ls.idLista}"></i>
 					</span>
 				</a>
 				

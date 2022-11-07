@@ -1,15 +1,15 @@
 package site.dao;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 import site.entities.Lista;
 
+@Stateless
 public class ListaDAO {
     
     private EntityManager em = Persistence.createEntityManagerFactory("pu-sqlite").createEntityManager();
@@ -20,6 +20,11 @@ public class ListaDAO {
     
     public Lista find(Integer id) {
         return this.em.find(Lista.class, id);
+    }
+    
+    public Lista findById(Integer id, Integer idUser) {
+        Lista ls = find(id);
+        return ls != null && ls.getUser().getId() == idUser ? ls : null;
     }
     
     @SuppressWarnings("unchecked")
@@ -34,6 +39,43 @@ public class ListaDAO {
                 .getResultList();
     }
     
+    @SuppressWarnings("unchecked")
+    public List<Lista> findByTitle(String title, Integer idUser) {
+        return this.em.createQuery("SELECT t FROM Lista t WHERE t.title LIKE :tTitle AND t.user.id = :tUser ORDER BY -t.title")
+                .setParameter("tTitle", title)
+                .setParameter("tUser", idUser)
+                .getResultList();
+    }
+    
+    public Lista save(Lista l) {
+        Lista ls = null;
+        EntityTransaction trn = this.em.getTransaction();
+        trn.begin();
+        try {
+            this.em.merge(l);
+            trn.commit();
+            ls = l;
+        } catch (Exception e) {
+            trn.rollback();
+        }
+        return ls;
+    }
+    
+    public boolean remove(Lista l) {
+        boolean ls = false;
+        EntityTransaction trn = this.em.getTransaction();
+        trn.begin();
+        try {
+            this.em.remove(l);
+            trn.commit();
+            ls = true;
+        } catch (Exception e) {
+            trn.rollback();
+        }
+        return ls;
+    }
+    
+    /*
     public Lista save(Lista entity) {
         
         Lista Lista = this.find(entity.getIdLista());
@@ -52,5 +94,6 @@ public class ListaDAO {
             return entity;
         }
     }
+    */
     
 }

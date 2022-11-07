@@ -1,17 +1,15 @@
 package site.dao;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-
-import org.apache.commons.beanutils.BeanUtils;
 
 import site.entities.Task;
 
+@Stateless
 public class TaskDAO {
     
     private EntityManager em = Persistence.createEntityManagerFactory("pu-sqlite").createEntityManager();

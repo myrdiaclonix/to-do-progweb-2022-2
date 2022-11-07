@@ -38,8 +38,11 @@ import site.utils.ResponseJson;
 public class TaskController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private TaskDAO daoTask = new TaskDAO();
-    private ListaDAO daoLista = new ListaDAO();
+    @EJB
+    private TaskDAO daoTask;
+
+    @EJB
+    private ListaDAO daoLista;
     
     @EJB
     private TagDAO daoTag;
@@ -117,19 +120,19 @@ public class TaskController extends HttpServlet {
                 res.setMsg("Título inválido!");
                 isOk = false;
                 out.println(res.toJson());
-                out.close();
+                return;
             }
             if (description.isEmpty()) {
                 res.setMsg("Descrição da tarefa inválida!");
                 isOk = false;
                 out.println(res.toJson());
-                out.close();
+                return;
             }
             if (dateLimit.isEmpty()) {
                 res.setMsg("Data inválida!");
                 isOk = false;
                 out.println(res.toJson());
-                out.close();
+                return;
             }
 
             if (isOk) {
@@ -146,7 +149,7 @@ public class TaskController extends HttpServlet {
             res.setStatus(1);
 
             out.println(res.toJson());
-            out.close();
+            return;
 
         } else {
             if (action.equals("SLTKS")) {
@@ -154,7 +157,7 @@ public class TaskController extends HttpServlet {
                 out.println(search);
             }
             out.println(action);
-            out.close();
+            return;
         }
     }
 }
