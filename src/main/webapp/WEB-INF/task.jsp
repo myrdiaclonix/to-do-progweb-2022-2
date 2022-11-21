@@ -386,8 +386,7 @@
 							<button type="button"
 								class="btn rounded-5 btn-modal-default modal-back shadow-sm"
 								data-bs-dismiss="modal">Cancelar</button>
-							<button type="submit"
-								class="btn rounded-5 btn-modal-default modal-back shadow-sm">Adicionar</button>
+							<button type="submit" id="task-submit-button" class="btn rounded-5 btn-modal-default modal-back shadow-sm">Adicionar</button>
 						</div>
 					</form>
 				</div>

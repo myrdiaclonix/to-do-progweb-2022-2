@@ -153,7 +153,7 @@ public class Task implements Serializable {
         DateFormat formatDef = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy ' - ' hh:mm",local);
         DateFormat formatToday = new SimpleDateFormat("'HOJE - ' hh:mm ",local);
         DateFormat formatPen = new SimpleDateFormat("'ATRASADA - ' dd/MM/yyyy",local);
-        DateFormat comparate = new SimpleDateFormat("ddMMyyyy",local);
+        DateFormat comparate = new SimpleDateFormat("yyyyMMdd",local);
         
         if(dt != null) {
             

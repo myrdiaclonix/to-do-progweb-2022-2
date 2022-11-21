@@ -113,9 +113,11 @@ public class TaskController extends HttpServlet {
         ResponseJson res = new ResponseJson();
 
         String action = request.getParameter("action");
+        String id = request.getParameter("id");
+        Integer taskId = id != null && id.length() > 0 && Integer.parseInt(id) > 0 ? Integer.parseInt(id) : null;
 
-        if (action.equals("addTask")) {
-
+        if (action.equals("addTask") || action.equals("editTask"))
+        {
             String title = request.getParameter("input-title-task");
             String description = request.getParameter("textarea-description");
             String dateLimit = request.getParameter("input-date-limit");
@@ -123,42 +125,72 @@ public class TaskController extends HttpServlet {
             Integer listId = Integer.parseInt(request.getParameter("task-list-option"));
 
             boolean isOk = true;
-            if (title.isEmpty()) {
+            if (title.isEmpty())
+            {
                 res.setMsg("Título inválido!");
                 isOk = false;
                 out.println(res.toJson());
                 return;
             }
-            if (description.isEmpty()) {
+            
+            if (description.isEmpty())
+            {
                 res.setMsg("Descrição da tarefa inválida!");
                 isOk = false;
                 out.println(res.toJson());
                 return;
             }
+            
             if (dateLimit.isEmpty()) {
                 res.setMsg("Data inválida!");
                 isOk = false;
                 out.println(res.toJson());
                 return;
             }
-
+            
             if (isOk) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime localDate = LocalDateTime.parse(dateLimit, formatter);
                 Timestamp date = Timestamp.valueOf(localDate);
-                Task t = new Task(null, title, description, 0, date, null,
-                        (User) request.getSession().getAttribute("user"),
-                        daoLista.find(listId));
+                Task t = new Task(taskId, title, description, 0, date, null, user, daoLista.find(listId));
                 daoTask.save(t);
+                
+                String msg = action.equals("editTask") ? "Tarefa atualizada com sucesso!" : "Tarefa adicionado com sucesso!";
+                
+                res.setMsg(msg);
+                res.setStatus(1);
             }
-
-            res.setMsg("Tarefa adiciona com sucesso!");
-            res.setStatus(1);
-
             out.println(res.toJson());
             return;
-
-        } else {
+        }  
+        else if (action.equals("getTask"))
+        {
+            Task ts = daoTask.find(taskId);
+            if (ts != null)
+            {
+                res.addRes(ts.getTitle());
+                if (ts.getDtLimit() != null)
+                {
+                    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+                    res.addRes(ts.getDtLimit().toString());
+                }
+                else
+                {
+                    res.addRes(null);
+                }
+                res.addRes(ts.getDescription());
+                Lista ls = ts.getlista();
+                if (ls != null)
+                {
+                    res.addRes(ls.getIdLista().toString());
+                }
+                res.setMsg("Tarefa encontrada.");
+                res.setStatus(1);
+            }
+            out.println(res.toJson());
+            return;
+        } 
+        else {
             if (action.equals("SLTKS")) {
                 String search = request.getParameter("input-search-task");
                 out.println(search);

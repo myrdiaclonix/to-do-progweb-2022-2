@@ -46,18 +46,57 @@ $("#modal-add-tasks").on("show.bs.modal", function(e) {
 
 	let btn = $(e.relatedTarget);
 	let type = btn.attr("data-type") != undefined ? 1 : 0;
+	let form = $(this).find("#form-modal-add-tasks");
+
+	// Limpa os valores dos campos do formulario do modal
+	$("#form-modal-add-tasks")[0].reset();
 	
-	$("#select-list-task").load(CONTEXT_PATH + `/tasks #select-list-task >*`);
-
 	if (type == 0) {
-
 		$(this).find(".modal-title span").text("Editar tarefa");
+		$(this).find("#task-submit-button").text("Atualizar");
 
-	} else {
-
-		$(this).find(".modal-title span").text("Adicionar tarefa");
+		let btn = $(e.relatedTarget);
+		let task = btn.attr("data-task") != undefined ? btn.attr("data-task") : 0;
+		form.attr("data-task", task);
+		
+		$.ajax({
+			url: CONTEXT_PATH + "/tasks",
+			type: "POST",
+			data: `action=getTask&id=${task}`,
+			beforeSend: () => { console.log("Buscando..."); }
+		})
+		.done((msg) => {
+			if (isJson(msg)) {
+				let json = JSON.parse(msg);
+				if (json.status == 1) {
+					
+					$("#select-list-task").load(CONTEXT_PATH + `/tasks #select-list-task >*`, function(e) {
+						$("#input-title-task").val(json.res[0]);
+						$("#input-date-limit").val(json.res[1]);
+						$("#textarea-description").val(json.res[2]);
+						if (json.res.length > 3) {
+							$(`#select-list-task option[value="${json.res[3]}"]`).prop("selected", true);
+						} else {
+							$(`#select-list-task option:first`).prop("selected", true);
+						}	
+					});
+					
+				}
+			}
+		})
+		.fail(function(jqXHR, textStatus, msg) {
+			console.log(msg);
+		});
 	}
-
+	else {
+		
+		$("#select-list-task").load(CONTEXT_PATH + `/tasks #select-list-task >*`, function() {
+			$(`#select-list-task option:first`).prop("selected", true);
+		});
+		form.removeAttr("data-task");
+		$(this).find(".modal-title span").text("Adicionar tarefa");
+		$(this).find("#task-submit-button").text("Adicionar");
+	}
 });
 
 /*
@@ -66,11 +105,18 @@ $("#modal-add-tasks").on("show.bs.modal", function(e) {
 
 // Form Modal Add Tasks
 $("#form-modal-add-tasks").on("submit", function(e) {
+	
 	e.preventDefault();
+	
+	let task = $(this).attr("data-task");
+	task = task != undefined && task > 0 ? task : 0;
+	
+	let action = task > 0 ? "editTask" : "addTask";
+	
 	$.ajax({
 		url: CONTEXT_PATH + "/tasks",
 		type: 'POST',
-		data: $(this).serialize() + "&action=addTask",
+		data: $(this).serialize() + `&action=${action}&id=${task}`,
 		beforeSend: function() {
 			console.log("Enviando...");
 		}
@@ -130,6 +176,11 @@ $("#form-search-tasks").on("submit", function(event) {
 
 function refreshListsTask(url) {
 	$("#menu-tasks").load(CONTEXT_PATH + `${url} #menu-tasks >*`);
+	$("#list-all-tasks").load(CONTEXT_PATH + `${url} #list-all-tasks >*`);
+	$("#list-my-tasks-complete").load(CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
+}
+
+function refreshOnlyTasks(url) {
 	$("#list-all-tasks").load(CONTEXT_PATH + `${url} #list-all-tasks >*`);
 	$("#list-my-tasks-complete").load(CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
 }

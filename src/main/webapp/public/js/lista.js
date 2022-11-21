@@ -249,6 +249,6 @@ function replaceTaskLista(lista = 0) {
 	let search = params['s'] != undefined ? params['s'] : "";
 	let url = `/tasks?s=${search}&l=${lista}`;
 	
-	refreshListsTask(url);
+	refreshOnlyTasks(url);
 	replaceSearchURL(url);
 }
