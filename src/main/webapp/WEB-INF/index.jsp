@@ -44,12 +44,15 @@
 						<!-- Login input -->
 						<form id="form-login" class="form-login gap-3">
 							<label class="fs-4 fw-light"><strong>Login</strong></label>
+							
 							<label for="loginEmail" class="form-label">E-mail</label>
-							<input type="email" class="form-control form-background" id="loginEmail" />
+							<input type="email" class="form-control form-background" id="loginEmail" name="loginEmail"  tabindex="1"/>
+							
 							<label for="loginPassword" class="form-label">Senha</label>
-							<input type="password" class="form-control form-background" id="loginPassword" />
+							<input type="password" class="form-control form-background" id="loginPassword" name="loginPassword" tabindex="2"/>
+							
 							<div class="d-flex flex-row-reverse mt-5">
-								<button type="submit" class="btn rounded-5 btn-default shadow-sm">Login</button>
+								<button type="submit" class="btn rounded-5 btn-default shadow-sm" tabindex="3">Login</button>
 							</div>
 						</form>
 
@@ -81,17 +84,17 @@
 							<label class="fs-4 fw-light"><strong>Cadastro</strong></label>
 
 							<label for="signUpName" class="form-label">Nome</label>
-							<input type="name" class="form-control form-background" id="signUpName" />
+							<input type="text" class="form-control form-background" id="signUpName" name="signUpName" tabindex="1"/>
 
 							<label for="signUpEmail" class="form-label">E-mail</label>
-							<input type="email" class="form-control form-background" id="signUpEmail" />
+							<input type="email" class="form-control form-background" id="signUpEmail" name="signUpEmail" tabindex="2"/>
 
 							<label for="signUpPassword" class="form-label">Senha</label>
-							<input type="password" class="form-control form-background" id="signUpPassword" />
+							<input type="password" class="form-control form-background" id="signUpPassword"  name="signUpPassword"  tabindex="3"/>
 
 							<div class="d-flex justify-content-between mt-5">
-								<a href="#signIn" class="btn rounded-5 btn-default shadow-sm return-btn">Voltar</a>
-								<button type="submit" class="btn rounded-5 btn-default shadow-sm">Cadastrar</button>
+								<a href="#signIn" class="btn rounded-5 btn-default shadow-sm btn-alter-sing-page" tabindex="5">Voltar</a>
+								<button type="submit" class="btn rounded-5 btn-default shadow-sm" tabindex="4">Cadastrar</button>
 							</div>
 						</form>
 					</div>

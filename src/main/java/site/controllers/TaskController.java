@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 import site.dao.ListaDAO;
 import site.dao.TagDAO;
 import site.dao.TaskDAO;
@@ -56,9 +54,15 @@ public class TaskController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // For test purposes.
-        User user = new User(1, "teste@email.com", "12345678");
-        request.getSession().setAttribute("user", user);
+        // Validate User Logged
+        User user = (User) request.getSession().getAttribute("user");
+        
+        if(user == null) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
+        
+        System.out.println(user.getEmail());
         
         // User associated tags.
         List<Tag> userTags = daoTag.userTags((User) request.getSession().getAttribute("user"));
@@ -72,16 +76,12 @@ public class TaskController extends HttpServlet {
         idLista = idLista == null || idLista == 0 ? null : idLista;
         
         // Tarefas pendentes e concluidas
-        List<Task> pTasks = daoTask.findByTasks(search, idLista, 0);
-        List<Task> cTasks = daoTask.findByTasks(search, idLista, 1, 1);
+        List<Task> pTasks = daoTask.findByTasks(user.getId(), search, idLista, 0);
+        List<Task> cTasks = daoTask.findByTasks(user.getId(), search, idLista, 1, 1);
         
         // Todas as listas e lista atual
-        List<Lista> listas = daoLista.findAll();
-        Lista listaTask = idLista != null && idLista > 0 ? daoLista.find(idLista) : null;
-        
-        for(Task ts : pTasks) {
-            System.out.println(ts.getlista());
-        }
+        List<Lista> listas = daoLista.findAll(user.getId());
+        Lista listaTask = idLista != null && idLista > 0 ? daoLista.findById(idLista, user.getId()) : null;
         
         request.setAttribute("pTasks", pTasks);
         request.setAttribute("cTasks", cTasks);
@@ -102,6 +102,13 @@ public class TaskController extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
+        // Validate User Logged
+        User user = (User) request.getSession().getAttribute("user");
+        
+        if(user == null) {
+            return;
+        }
+        
         PrintWriter out = response.getWriter();
         ResponseJson res = new ResponseJson();
 

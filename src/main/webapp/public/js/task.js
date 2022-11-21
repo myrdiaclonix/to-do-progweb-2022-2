@@ -2,6 +2,30 @@
 	Menu Tasks' Events
 */
 
+$("#btn-logout").on("click", function(e) {
+	e.preventDefault();
+	$.ajax({
+		url: CONTEXT_PATH + "/",
+		type: 'POST',
+		data: $(this).serialize() + "&action=logout",
+		
+	})
+	.done(function(msg) {
+		if (isJson(msg)) {
+			let json = JSON.parse(msg);
+			if (json.status == 1) {
+				window.location.href = CONTEXT_PATH + "/";
+			} 
+			
+		} else {
+			alert(msg);
+		}
+	})
+	.fail(function(jqXHR, textStatus, msg) {
+		alert(msg);
+	});
+});
+
 /*
 	Element Modals' Events
 */

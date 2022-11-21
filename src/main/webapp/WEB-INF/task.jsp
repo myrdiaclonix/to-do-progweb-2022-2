@@ -88,7 +88,7 @@
 					<div>
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link text-user-default fs-4" href="#logout">
+								<a id="btn-logout" class="nav-link text-user-default fs-4" href="#logout">
 									<i class="far fa-sign-out"></i>
 									<span>Sair</span>
 								</a>
@@ -457,13 +457,15 @@
 										</div>
 									</div>
 								</div>
-
+								
+								<c:forEach var="ls" varStatus="status" items="${listas}">
+				
 								<div class="list-group-item border-0 rounded-0 fs-5 check-share-list">
 									<div class="row">
 										<div class="col">
 											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-list">Faculdade</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-list" name="input-check-share-list">
+												<label class="form-check-label" for="input-check-share-list${ls.idLista}">${ls.title}</label>
+												<input class="form-check-input" type="checkbox" value="${ls.idLista}" id="input-check-share-list${ls.idLista}" name="input-check-share-list" data-lista="${ls.idLista}">
 											</div>
 										</div>
 										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
@@ -474,34 +476,19 @@
 										</div>
 									</div>
 								</div>
-
-								<div class="list-group-item border-0 rounded-0 fs-5 check-share-list">
-									<div class="row">
-										<div class="col">
-											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-list2">Viagem</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-list2" name="input-check-share-list">
-											</div>
-										</div>
-										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
-											<a href="#modal-share-list-config" class="icons-menu-tasks" data-bs-toggle="modal"
-												data-bs-target="#modal-share-list-config">
-												<i class="fad fa-cog"></i>
-											</a>
-										</div>
-									</div>
-								</div>
+								
+								</c:forEach>
 
 							</div>
 
 						</div>
 						
 						<div class="col-12">
-							<textarea class="form-control input-custom" name="textarea-share-list" id="textarea-share-list" placeholder="Compartilhar com..." cols="30" rows="2"></textarea>
+							<input class="form-control input-custom" name="input-share-email" id="input-share-email" placeholder="Digite o e-mail do usuário..."/>
 						</div>
 
 						<div class="col-12 pt-3 d-flex flex-row-reverse justify-content-between gap-5">
-							<button type="submit" class="btn rounded-5 btn-modal-default shadow-sm" form="form-modal-add-tasks">Compartilhar</button>
+							<button type="submit" class="btn rounded-5 btn-modal-default shadow-sm" form="form-modal-share-lists">Compartilhar</button>
 						</div>
 					</form>
 				</div>

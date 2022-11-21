@@ -42,6 +42,9 @@ public class Lista implements Serializable{
     @JoinColumn(name="idLista", referencedColumnName="id", nullable = true)  
     private List<Task> tasks = new ArrayList<Task>();
     
+    @Column(name = "is_shared", nullable = true)
+    private Boolean isShared;
+    
     public Lista() {
     }
     
@@ -99,6 +102,14 @@ public class Lista implements Serializable{
         this.tasks = tasks;
     }
     
+    public Boolean getIsShared() {
+        return isShared;
+    }
+
+    public void setIsShared(Boolean isShared) {
+        this.isShared = isShared;
+    }
+
     @PreRemove
     public void nullTasks() {
         tasks.forEach(ts -> ts.setlista(null));

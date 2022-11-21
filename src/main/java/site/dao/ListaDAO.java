@@ -33,6 +33,13 @@ public class ListaDAO {
     }
     
     @SuppressWarnings("unchecked")
+    public List<Lista> findAll(Integer idUser) {
+        return this.em.createQuery("SELECT l FROM Lista l WHERE l.user.id = :tUser ORDER BY l.title")
+                .setParameter("tUser", idUser)
+                .getResultList();
+    }
+    
+    @SuppressWarnings("unchecked")
     public List<Lista> findByTitle(String title) {
         return this.em.createQuery("SELECT t FROM Lista t WHERE t.title LIKE :tTitle ORDER BY -t.title")
                 .setParameter("tTitle", "%"+title+"%")

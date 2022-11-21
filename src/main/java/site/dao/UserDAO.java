@@ -2,12 +2,14 @@ package site.dao;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import site.entities.User;
 
+@Stateless
 public class UserDAO {
     
     private EntityManager em = Persistence.createEntityManagerFactory("pu-sqlite").createEntityManager();

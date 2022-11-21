@@ -6,6 +6,7 @@
 		<class>site.entities.Task</class>
 		<class>site.entities.User</class>
 		<class>site.entities.Lista</class>
+		<class>site.entities.ListaShared</class>
 		<class>site.entities.Tag</class>
 		<properties>
 			<property name="javax.persistence.driver" value="com.mysql.cj.jdbc.Driver"/>

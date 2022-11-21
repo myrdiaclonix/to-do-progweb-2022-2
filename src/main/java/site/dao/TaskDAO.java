@@ -28,20 +28,33 @@ public class TaskDAO {
     }
     
     @SuppressWarnings("unchecked")
-    public List<Task> findByTasks(String title, Integer lista, Integer status) {
+    public List<Task> findAll(Integer idUser) {
+        return this.em.createQuery("SELECT t FROM Task t WHERE t.user.id = :tUser")
+                .setParameter("tUser", idUser)
+                .getResultList();
+        
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Task> findByTasks(Integer idUser, String title, Integer lista, Integer status) {
         
         if(lista == null) {
             return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
+                    + "AND t.user.id = :tUser "
                     + "ORDER BY -t.dtLimit DESC")
                     .setParameter("tTitle", "%"+title+"%")
                     .setParameter("tStatus", status)
+                    .setParameter("tUser", idUser)
                     .getResultList();
         } else {
             return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
-                    + "AND t.lista.idLista = :tLista ORDER BY -t.dtLimit DESC")
+                    + "AND t.lista.idLista = :tLista "
+                    + "AND t.user.id = :tUser "
+                    + "ORDER BY -t.dtLimit DESC")
                     .setParameter("tTitle", "%"+title+"%")
                     .setParameter("tStatus", status)
                     .setParameter("tLista", lista)
+                    .setParameter("tUser", idUser)
                     .getResultList();
         }
         
@@ -49,20 +62,25 @@ public class TaskDAO {
     }
     
     @SuppressWarnings("unchecked")
-    public List<Task> findByTasks(String title, Integer lista, Integer status, Integer order) {
+    public List<Task> findByTasks(Integer idUser, String title, Integer lista, Integer status, Integer order) {
         
         if(lista == null) {
             return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
+                    + "AND t.user.id = :tUser "
                     + "ORDER BY -t.dtComplete")
                     .setParameter("tTitle", "%"+title+"%")
                     .setParameter("tStatus", status)
+                    .setParameter("tUser", idUser)
                     .getResultList();
         } else {
             return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
-                    + "AND t.lista.idLista = :tLista ORDER BY -t.dtComplete")
+                    + "AND t.lista.idLista = :tLista "
+                    + "AND t.user.id = :tUser "
+                    + "ORDER BY -t.dtComplete")
                     .setParameter("tTitle", "%"+title+"%")
                     .setParameter("tStatus", status)
                     .setParameter("tLista", lista)
+                    .setParameter("tUser", idUser)
                     .getResultList();
         }
     }

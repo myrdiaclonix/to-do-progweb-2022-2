@@ -16,7 +16,9 @@ $('.return-btn').on("click", function (e) {
 
 // Função: altera entre a página de Cadastro e Login
 $('.btn-alter-sing-page').on("click", function (e) {
-
+	
+	e.preventDefault();
+	
     let el = $(this).attr("href");
     let page = $(el);
     let allPages = $(".sing-page");
@@ -35,9 +37,27 @@ $('#form-login').on("submit", function (e) {
 
     e.preventDefault();
 
-    /* Inserir todo o código de tratamento */
-
-    alert("Fiz Login!");
+    $.ajax({
+		url: CONTEXT_PATH + "/",
+		type: 'POST',
+		data: $(this).serialize() + "&action=login",
+	})
+	.done(function(msg) {
+		if (isJson(msg)) {
+			let json = JSON.parse(msg);
+			if (json.status == 1) {
+				window.location.href = CONTEXT_PATH + "/tasks";
+			} else {
+				alert(json.msg);
+			}
+			
+		} else {
+			alert(msg);
+		}
+	})
+	.fail(function(jqXHR, textStatus, msg) {
+		alert(msg);
+	});
 
 });
 
@@ -46,8 +66,29 @@ $('#form-cadastro').on("submit", function (e) {
 
     e.preventDefault();
 
-    /* Inserir todo o código de tratamento */
-
-    alert("Fiz Cadastro!");
+    $.ajax({
+		url: CONTEXT_PATH + "/",
+		type: 'POST',
+		data: $(this).serialize() + "&action=register",
+	})
+	.done(function(msg) {
+		if (isJson(msg)) {
+			let json = JSON.parse(msg);
+			
+			alert(json.msg);
+			
+			if (json.status == 1) {
+				setTimeout(function(){
+					window.location.href = CONTEXT_PATH + "/tasks";
+				}, 2000);
+			} 
+			
+		} else {
+			alert(msg);
+		}
+	})
+	.fail(function(jqXHR, textStatus, msg) {
+		alert(msg);
+	});
 
 });

@@ -40,7 +40,7 @@ $("#modal-add-lists").on("show.bs.modal", function (e) {
 	form.attr("data-lista", lista);
 
 	// Limpa os valores dos campos do formulario do modal
-	$("#form-modal-add-lists")[0].reset();
+	form[0].reset();
 
     if (type == 0) {
 
@@ -79,6 +79,17 @@ $("#modal-add-lists").on("show.bs.modal", function (e) {
         $(this).find(".modal-title span").text("Adicionar lista");
         $("#form-modal-add-lists button[type='submit']").text("Adicionar");
     }
+
+});
+
+// Modal Share Lists
+$("#modal-share-lists").on("show.bs.modal", function (e) {
+
+    let btn = $(e.relatedTarget);
+	let form = $(this).find("#form-modal-share-lists");
+
+	// Limpa os valores dos campos do formulario do modal
+	form[0].reset();
 
 });
 
@@ -179,27 +190,56 @@ $("#form-modal-add-lists").on("submit", function(e) {
 	.fail(function(jqXHR, textStatus, msg) {
 		alert(msg);
 	});
-	/*
-    let json = {
-        title : $("#input-title-list").val()
-    };
 
-    if((json.title).length > 0 ) {
-        $("#menu-list-tasks").append(`
-        <a href="#list-${json.title}" class="list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5">
-            <span>
-                <i class="far fa-bars icons-menu-tasks"></i>
-                ${json.title}
-            </span>
-            <span class="btn-list-edit float-end" data-bs-toggle="modal" data-bs-target="#modal-add-lists">
-                <i class="fad fa-edit icons-menu-tasks"></i>
-            </span>
-        </a>
-        `);
-        
-        alert("Lista foi adicionada com sucesso");
+});
 
-    }*/
+// Form Modal Share Lists
+$("#form-modal-share-lists").on("submit", function(e) {
+
+    e.preventDefault();
+	
+	let inputs = $("input[name='input-check-share-list']:checked"); 
+	let checks = "";
+	
+	if(inputs.length > 0) {
+		
+		for(let i = 0; i < inputs.length; i++) {
+			checks += i < inputs.length-1 ? inputs[i].dataset.lista + ",": inputs[i].dataset.lista;
+		}
+		
+	}
+	
+	let lista = $(this).attr("data-lista");
+	
+	lista = lista != undefined && lista > 0 ? lista : 0;
+	
+	let action = "shareLista";
+	let data = $(this).serialize() + `&action=${action}&code=${lista}&checks=${checks}`;
+	
+	$.ajax({
+		url: CONTEXT_PATH + "/lists",
+		type: 'POST',
+		data: data,
+		beforeSend: function() {
+			console.log("Enviando...");
+		}
+	})
+	.done(function(msg) {
+			console.log(msg);
+		if (isJson(msg)) {
+			let json = JSON.parse(msg);
+			if (json.status == 1) {
+				refreshListsTaskActual(); 
+			} 
+			
+			alert(json.msg);
+		} else {
+			console.log(msg);
+		}
+	})
+	.fail(function(jqXHR, textStatus, msg) {
+		alert(msg);
+	});
 
 });
 
