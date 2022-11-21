@@ -7,6 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import site.entities.Lista;
+import site.entities.Task;
 import site.entities.User;
 
 @Stateless
@@ -46,34 +48,17 @@ public class UserDAO {
     
     public boolean Save(User Obj) { 
         
-        boolean res = false;
-        EntityTransaction trx = this.em.getTransaction();
-
+        Boolean ls = null;
+        EntityTransaction trn = this.em.getTransaction();
+        trn.begin();
         try {
-            trx.begin();
-            
-            User us = find(Obj.getId());
-            
-            if(us == null) {
-                this.em.persist(Obj);
-                this.em.flush();  
-            } else {
-                this.em.createQuery(
-                        "UPDATE User u SET u.email = :uEmail, password = :uPass "
-                        + "WHERE u.id = :uId")
-                        .setParameter("uEmail", Obj.getEmail())
-                        .setParameter("uPass", Obj.getPassword())
-                        .setParameter("uId", Obj.getId());
-            }
-            
-            trx.commit();
-            res = true;
-            
+            this.em.merge(Obj);
+            trn.commit();
+            ls = true;
         } catch (Exception e) {
-            trx.rollback();
+            trn.rollback();
         }
-        
-        return res;
+        return ls;
     }
 
 }
