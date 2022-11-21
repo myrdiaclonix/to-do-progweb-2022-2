@@ -248,8 +248,8 @@
 						<div class="row">
 							<div class="col-12 col-md-6">
 								<div class="d-flex align-items-start gap-3">
-									<input class="form-check-input mt-2" type="checkbox" value="${task.idTask}" id="input-check-task" name="input-check-task">
-									<label class="form-check-label d-flex flex-column " for="input-check-task">
+									<input class="form-check-input check-confirm-task mt-2" type="checkbox" value="${task.idTask}" id="input-check-task${task.idTask}" name="input-check-task">
+									<label class="form-check-label d-flex flex-column " for="input-check-task${task.idTask}">
 										<span>${task.title}</span>
 										<small class="fs-6 d-inline-block text-truncate text-task-desc">
 										${task.description}
@@ -268,9 +268,14 @@
 									${task.getDtConvert(task.dtLimit)}
 								
 								</span>
-								<a href="#modal-add-tasks" class="link-dark fs-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks" data-task="${task.idTask}">
+								<div>
+								<a href="#modal-add-tasks" class="link-dark text-decoration-none fs-5" data-bs-toggle="modal" data-bs-target="#modal-add-tasks" data-task="${task.idTask}">
 									<i class="far fa-pen"></i>
 								</a>
+								<a href="#remove-task" class="link-dark btn-remove-task text-decoration-none fs-5" data-task="${task.idTask}">
+									<i class="far fa-trash"></i>
+								</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -283,16 +288,14 @@
 			<!-- Done tasks list -->
 			<div id="list-my-tasks-complete" class="list-tasks-resolved">
 				
-				<c:if test="${cTasks.size() > 0}">
-				<a class="link-dark text-decoration-none d-flex align-items-center gap-2" data-bs-toggle="collapse"
+				<a id="counter-tasks-complete" class="link-dark text-decoration-none d-flex align-items-center gap-2" data-bs-toggle="collapse"
 					href="#collapse-tasks" role="button" aria-expanded="false" aria-controls="collapse-tasks">
 					<i class="fal fa-chevron-down"></i>
 					<span>Concluída</span>
 					<span class="text-muted">${cTasks.size()}</span>
 				</a>
-				</c:if>
 				<div class="collapse" id="collapse-tasks">
-					<div class="list-group py-3 gap-3">
+					<div id="sub-list-tasks-complete" class="list-group py-3 gap-3">
 						
 						<c:forEach var="task" varStatus="status" items="${cTasks}">
 						
@@ -300,8 +303,8 @@
 							<div class="row">
 								<div class="col-5">
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="${task.idTask}" id="input-check-task-resolved" name="input-check-task-resolved" checked>
-										<label class="form-check-label text-decoration-line-through" for="input-check-task-resolved">
+										<input class="form-check-input check-confirm-task" type="checkbox" value="${task.idTask}" id="input-check-task-resolved${task.idTask}" name="input-check-task-resolved" checked>
+										<label class="form-check-label text-decoration-line-through" for="input-check-task-resolved${task.idTask}">
 											${task.title}
 										</label>
 									</div>
@@ -314,6 +317,7 @@
 										
 										${task.getDtConvert(task.dtLimit)}
 									</span>
+									
 								</div>
 							</div>
 						</div>

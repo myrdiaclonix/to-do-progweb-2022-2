@@ -26,6 +26,84 @@ $("#btn-logout").on("click", function(e) {
 	});
 });
 
+$(document).on("change", ".check-confirm-task", function (event) {
+
+	// Previne a ação padrão
+	event.preventDefault(); 
+	
+	if($(this).is(':checked')) {
+		console.log("Confirmei");
+	} else {
+		console.log("Desconfirmei");
+	}
+	
+	let task = $(this).attr("data-task");
+	task = task != undefined && task > 0 ? task : 0;
+	
+	let action = "addTask";
+	
+	$.ajax({
+		url: CONTEXT_PATH + "/tasks",
+		type: 'POST',
+		data: $(this).serialize() + `&action=${action}&id=${task}`,
+		beforeSend: function() {
+			console.log("Enviando...");
+		}
+	})
+	.done(function(msg) {
+		if (isJson(msg)) {
+			let json = JSON.parse(msg);
+			if (json.status == 1) {
+				refreshListsTaskActual("/tasks", 1);
+			} 
+		} 
+	})
+	.fail(function(jqXHR, textStatus, msg) {
+		alert(msg);
+	});
+	
+});
+
+/*
+    Events Remove
+*/
+$(document).on("click", ".btn-remove-task", function (event) {
+
+	// Previne a ação padrão
+	event.preventDefault(); 
+	
+	let conf = confirm("Confirma a remoção dessa tarefa?");
+	
+	if(conf) {
+		let task = $(this).attr("data-task");
+		task = task != undefined && task > 0 ? task : 0;
+		
+		let action = "removeTask";
+		
+		$.ajax({
+			url: CONTEXT_PATH + "/tasks",
+			type: 'POST',
+			data: $(this).serialize() + `&action=${action}&id=${task}`,
+			beforeSend: function() {
+				console.log("Enviando...");
+			}
+		})
+		.done(function(msg) {
+			
+			if (isJson(msg)) {
+				let json = JSON.parse(msg);
+				if (json.status == 1) {
+					refreshListsTaskActual("/tasks", 1);
+				} 
+			} 
+		})
+		.fail(function(jqXHR, textStatus, msg) {
+			alert(msg);
+		});
+	}
+	
+});
+
 /*
 	Element Modals' Events
 */
@@ -185,12 +263,23 @@ function refreshOnlyTasks(url) {
 	$("#list-my-tasks-complete").load(CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
 }
 
-function refreshListsTaskActual() {
+function refreshOnlyTasksComplete(url) {
+	$("#list-all-tasks").load(CONTEXT_PATH + `${url} #list-all-tasks >*`);
+	$("#sub-list-tasks-complete").load(CONTEXT_PATH + `${url} #sub-list-tasks-complete >*`);
+	$("#counter-tasks-complete").load(CONTEXT_PATH + `${url} #counter-tasks-complete >*`);
+}
+
+function refreshListsTaskActual(url = "/tasks", type = 0) {
 	
 	let params = getParametersURL();
 	let search = params['s'] != undefined && (params['s']).length > 0 ? params['s'] : "";
 	let lista = params['l'] != undefined && params['l'] >= 0 ? params['l'] : 0;
-	let url = `/tasks?s=${search}&l=${lista}`;
-
-	refreshListsTask(url);
+	url = `${url}?s=${search}&l=${lista}`;
+	
+	if(type != 0) {
+		refreshOnlyTasksComplete(url);
+	} else {
+		refreshListsTask(url);
+	}
+	
 }
