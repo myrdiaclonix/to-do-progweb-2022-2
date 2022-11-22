@@ -17,12 +17,10 @@ $("#btn-logout").on("click", function(e) {
 				window.location.href = CONTEXT_PATH + "/";
 			} 
 			
-		} else {
-			alert(msg);
-		}
+		} 
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 });
 
@@ -34,10 +32,8 @@ $(document).on("change", ".check-confirm-task", function (event) {
 	let newStatus;
 	if($(this).is(':checked')) {
 		newStatus = 1;
-		console.log("Confirmei");
 	} else {
 		newStatus = 0;
-		console.log("Desconfirmei");
 	}
 	
 	let task = $(this).attr("value");
@@ -60,7 +56,7 @@ $(document).on("change", ".check-confirm-task", function (event) {
 		} 
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 	
 });
@@ -99,7 +95,7 @@ $(document).on("click", ".btn-remove-task", function (event) {
 			} 
 		})
 		.fail(function(jqXHR, textStatus, msg) {
-			alert(msg);
+			alertSweet(msg);
 		});
 	}
 	
@@ -214,13 +210,13 @@ $("#form-modal-add-tasks").on("submit", function(e) {
 				refreshListsTask(url);
 			} 
 			
-			alert(json.msg);
+			alertSweet(json.msg, json.status);
 		} else {
 			console.log(msg);
 		}
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 });
 
@@ -268,7 +264,6 @@ function refreshOnlyTasksComplete(url) {
 	$("#list-all-tasks").load(CONTEXT_PATH + `${url} #list-all-tasks >*`);
 	$("#sub-list-tasks-complete").load(CONTEXT_PATH + `${url} #sub-list-tasks-complete >*`);
 	$("#counter-tasks-complete").load(CONTEXT_PATH + `${url} #counter-tasks-complete >*`);
-	$("#list-my-tasks-complete").load(CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
 }
 
 function refreshListsTaskActual(url = "/tasks", type = 0) {

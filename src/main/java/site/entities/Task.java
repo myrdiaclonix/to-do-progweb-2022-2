@@ -48,11 +48,11 @@ public class Task implements Serializable {
     @Column(name = "dtComplete", nullable = true)
     private java.sql.Timestamp dtComplete;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="idUser", referencedColumnName="id", nullable = false)  
 	private User user;
     
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade=CascadeType.REMOVE )
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name="idLista", referencedColumnName="id", nullable = true)  
     private Lista lista;
     
@@ -157,17 +157,29 @@ public class Task implements Serializable {
         
         if(dt != null) {
             
-            if(comparate.format(today).equals(comparate.format(dt.getTime()))) {
+            if(this.status == 0 && comparate.format(today).equals(comparate.format(dt.getTime()))) {
              
                 return formatToday.format(dt.getTime());
             
-            } else if(Integer.parseInt(comparate.format(today)) > Integer.parseInt(comparate.format(dt.getTime()))) {
+            } else if(this.status == 0 && Integer.parseInt(comparate.format(today)) > Integer.parseInt(comparate.format(dt.getTime()))) {
                
                 return formatPen.format(dt.getTime()); 
                 
             } else {
                 return formatDef.format(dt.getTime());
             }
+        } 
+        
+        return null;
+    }
+    
+    public String getDtConvertComplete(java.sql.Timestamp dt) {
+        
+        Locale local = new Locale("pt","BR");
+        DateFormat formatDef = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy ' - ' hh:mm",local);
+        
+        if(dt != null) {
+            return formatDef.format(dt.getTime());
         } 
         
         return null;

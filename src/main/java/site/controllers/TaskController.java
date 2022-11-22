@@ -17,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import site.dao.ListaDAO;
+import site.dao.ListaSharedDAO;
 import site.dao.TagDAO;
 import site.dao.TaskDAO;
 import site.entities.Lista;
+import site.entities.ListaShared;
 import site.entities.Tag;
 import site.entities.Task;
 import site.entities.User;
@@ -41,6 +43,9 @@ public class TaskController extends HttpServlet {
 
     @EJB
     private ListaDAO daoLista;
+    
+    @EJB
+    private ListaSharedDAO daoListaShared;
     
     @EJB
     private TagDAO daoTag;
@@ -70,6 +75,7 @@ public class TaskController extends HttpServlet {
         
         String search = request.getParameter("s"); // parametro s => search
         String l = request.getParameter("l"); // parametro l => lista
+        
         Integer idLista = l != null && l.isBlank() || l == null ? 0 : Integer.parseInt(l); // converte l para inteiro
         
         search = search == null ? "" : search;
@@ -82,12 +88,19 @@ public class TaskController extends HttpServlet {
         // Todas as listas e lista atual
         List<Lista> listas = daoLista.findAll(user.getId());
         Lista listaTask = idLista != null && idLista > 0 ? daoLista.findById(idLista, user.getId()) : null;
+        List<ListaShared> usersC = daoListaShared.findByLista(idLista);
+        
+        for(ListaShared us : usersC) {
+            System.out.println(us.getIdListaShared());
+        }
         
         request.setAttribute("pTasks", pTasks);
         request.setAttribute("cTasks", cTasks);
         request.setAttribute("search", search);
         request.setAttribute("listas", listas);
         request.setAttribute("listaTask", listaTask);
+        request.setAttribute("usersC", usersC);
+        request.setAttribute("user", user);
         request.getRequestDispatcher("/WEB-INF/task.jsp").forward(request, response);
     }
 
@@ -121,12 +134,8 @@ public class TaskController extends HttpServlet {
             String title = request.getParameter("input-title-task");
             String description = request.getParameter("textarea-description");
             String dateLimit = request.getParameter("input-date-limit");
-            
-            String taskStatus = request.getParameter("status");
-            Integer status = taskStatus != null ? Integer.parseInt(taskStatus) : 0;
 
-            String taskList = request.getParameter("task-list-option");
-            Lista ls = taskList != null ? daoLista.find(Integer.parseInt(taskList)) : null;
+            Integer listId = Integer.parseInt(request.getParameter("task-list-option"));
 
             boolean isOk = true;
             if (title.isEmpty())
@@ -156,10 +165,10 @@ public class TaskController extends HttpServlet {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime localDate = LocalDateTime.parse(dateLimit, formatter);
                 Timestamp date = Timestamp.valueOf(localDate);
-                Task t = new Task(taskId, title, description, status, date, null, user, ls);
+                Task t = new Task(taskId, title, description, 0, date, null, user, daoLista.find(listId));
                 daoTask.save(t);
                 
-                String msg = action.equals("editTask") ? "Tarefa atualizada com sucesso!" : "Tarefa adicionado com sucesso!";
+                String msg = action.equals("editTask") ? "Tarefa atualizada com sucesso!" : "Tarefa adicionada com sucesso!";
                 
                 res.setMsg(msg);
                 res.setStatus(1);
@@ -175,6 +184,7 @@ public class TaskController extends HttpServlet {
                 res.addRes(ts.getTitle());
                 if (ts.getDtLimit() != null)
                 {
+                    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                     res.addRes(ts.getDtLimit().toString());
                 }
                 else
@@ -192,22 +202,18 @@ public class TaskController extends HttpServlet {
             }
             out.println(res.toJson());
             return;
-        }
+        } 
         else if (action.equals("removeTask"))
         {
             boolean del = false;
             Task t = daoTask.find(taskId);
-            if (t != null)
-            {
+            if (t != null) {
                 del = daoTask.remove(t);
             }
-            if(del)
-            {
+            if(del) {
                 res.setMsg("Tarefa removida com sucesso.");
                 res.setStatus(1);
-            }
-            else
-            {
+            } else {
                 res.setMsg("Erro ao remover a tarefa.");
             }
             out.println(res.toJson());
@@ -215,11 +221,25 @@ public class TaskController extends HttpServlet {
         }
         else if (action.equals("changeStatus"))
         {
+            
+            Integer status = Integer.parseInt(request.getParameter("status"));
             Task t = daoTask.find(taskId);
-            t.setStatus(Integer.parseInt(request.getParameter("status")));
+            
+            if(status == 1) {
+                Timestamp date = new Timestamp(new Date().getTime());
+                t.setDtComplete(date);
+            } else {
+                t.setDtComplete(null);
+            }
+            
+            t.setStatus(status);
+
             daoTask.save(t);
             
+            res.setMsg("Tarefa atualizada com sucesso!");
             res.setStatus(1);
+            
+            out.println(res.toJson());
             return;
         }
     }

@@ -101,16 +101,17 @@ public class TaskDAO {
     }
     
     public boolean remove(Task t) {
-        boolean tsk = false;
+        boolean ls = false;
         EntityTransaction trn = this.em.getTransaction();
         trn.begin();
         try {
             this.em.remove(t);
             trn.commit();
-            tsk = true;
+            ls = true;
         } catch (Exception e) {
             trn.rollback();
         }
-        return tsk;
+        return ls;
     }
+
 }

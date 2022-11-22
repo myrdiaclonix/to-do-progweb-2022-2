@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import site.dao.ListaDAO;
+import site.dao.ListaSharedDAO;
 import site.dao.UserDAO;
 import site.entities.Lista;
+import site.entities.ListaShared;
 import site.entities.User;
 import site.utils.ResponseJson;
 import site.utils.ValidateEmail;
@@ -32,6 +34,9 @@ public class ListaController extends HttpServlet{
     
     @EJB
     private UserDAO daoUser;
+    
+    @EJB
+    private ListaSharedDAO daoListaShared;
     
     public ListaController() {
         super();
@@ -151,6 +156,7 @@ public class ListaController extends HttpServlet{
             
             String checks = request.getParameter("checks");
             String email = request.getParameter("input-share-email");
+            Integer valid = 0;
             
             if(checks == null || checks != null && checks.isBlank()) {
                 res.setMsg("Nenhuma lista foi selecionada!");
@@ -180,11 +186,39 @@ public class ListaController extends HttpServlet{
             String[] listas = checks.split(","); 
             
             if(listas.length > 0) {
-                for(String nomes : listas) {
-                    out.println(nomes);
+                for(String id : listas) {
+                    
+                    Lista listaActual = daoLista.find(Integer.parseInt(id));
+                    
+                    if(listaActual == null) {
+                        res.setMsg("Alguma lista selecionada não existe na base de dados!");
+                        out.println(res.toJson());
+                        return;
+                    }
+                    
+                }
+                
+                for(String id : listas) {
+                    
+                    Lista listaActual = daoLista.find(Integer.parseInt(id));
+                    List<ListaShared> ls = daoListaShared.findByUserList(registers.get(0).getId(), Integer.parseInt(id));
+                    
+                    if(ls.size() == 0) {
+                        ListaShared save = daoListaShared.save(new ListaShared(null, registers.get(0), listaActual));
+                        
+                        if(save != null) valid++;
+                    }
+                    
                 }
             }
             
+            if(valid > 0) {
+                String msg = listas.length > 1 ? "Listas compartilhadas com sucesso!" : "Lista compartilhada com sucesso!";
+                res.setMsg(msg);
+                res.setStatus(1);
+            } else {
+                res.setMsg("Nenhuma lista foi compartilhada!");
+            }
             
             out.println(res.toJson());
             return;

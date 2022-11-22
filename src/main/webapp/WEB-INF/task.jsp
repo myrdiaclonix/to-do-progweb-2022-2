@@ -44,7 +44,7 @@
 			<div class="offcanvas offcanvas-end offcanvas-body-user text-user-default" tabindex="-1" id="offcanvas-user-profile"
 				aria-labelledby="offcanvas-user-name">
 				<div class="offcanvas-header">
-					<label class="offcanvas-title fs-4 text" id="offcanvas-user-name">Nome Usuário</label>
+					<label class="offcanvas-title fs-4 text" id="offcanvas-user-name">${user.name}</label>
 					<a href="#login" class="">
 						<img src="<%=request.getContextPath()%>/public/images/person-circle.svg" width="45" height="45" alt="User logo perfil">
 					</a>
@@ -315,9 +315,11 @@
 										Sem data
 										</c:if>
 										
-										${task.getDtConvert(task.dtLimit)}
+										${task.getDtConvertComplete(task.dtLimit)}
 									</span>
-									
+									<a href="#remove-task" class="link-dark btn-remove-task text-decoration-none fs-5" data-task="${task.idTask}">
+										<i class="far fa-trash"></i>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -448,14 +450,14 @@
 						
 						<div class="col-12">
 
-							<div class="list-group gap-3">
+							<div id="lists-modal-share" class="list-group gap-3">
 								
 								<div class="list-group-item border-0 rounded-0 fs-5 check-share-list all">
 									<div class="row">
 										<div class="col">
 											<div class="form-check">
-												<label class="form-check-label text-white" for="input-check-share-list-all">Selecione Todes</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-list-all">
+												<label class="form-check-label text-white" for="btn-select-todes">Selecione Todes</label>
+												<input class="form-check-input" type="checkbox" id="btn-select-todes">
 											</div>
 										</div>
 									</div>
@@ -473,7 +475,7 @@
 										</div>
 										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
 											<a href="#modal-share-list-config" class="icons-menu-tasks" data-bs-toggle="modal"
-												data-bs-target="#modal-share-list-config">
+												data-bs-target="#modal-share-list-config" data-lista="${ls.idLista}">
 												<i class="fad fa-cog"></i>
 											</a>
 										</div>
@@ -518,16 +520,24 @@
 
 					<form id="form-modal-share-list-config" class="row gap-3">
 						
-						<div class="col-12">
+						<div id="list-emails-shared" class="col-12">
 
 							<div class="list-group gap-2">
-
+								
+								<c:if test="${usersC.size() == 0}">
+					
+								<span class="empty text-white">Essa lista não foi compartilhada com ninguém!</span>
+								
+								</c:if>
+								
+								<c:forEach var="usc" varStatus="status" items="${usersC}">
+				
 								<div class="list-group-item border-0 rounded-0 check-share-list">
 									<div class="row">
 										<div class="col">
 											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-config">Fulanedetal@email.com</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-config" name="input-check-share-config">
+												<label class="form-check-label" for="input-check-share-config">${usc.user.email}</label>
+												<input class="form-check-input" type="checkbox" id="input-check-share-config${usc.idListaShared}" name="input-check-share-config">
 											</div>
 										</div>
 										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
@@ -537,79 +547,23 @@
 										</div>
 									</div>
 								</div>
-
-								<div class="list-group-item border-0 rounded-0 check-share-list">
-									<div class="row">
-										<div class="col">
-											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-config2">Fulanedetal@email.com</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-config2" name="input-check-share-config">
-											</div>
-										</div>
-										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
-											<a href="#" class="icons-menu-tasks">
-												<i class="fad fa-user-minus"></i>
-											</a>
-										</div>
-									</div>
-								</div>
-
-								<div class="list-group-item border-0 rounded-0 check-share-list">
-									<div class="row">
-										<div class="col">
-											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-config3">Fulanedetal@email.com</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-config3" name="input-check-share-config">
-											</div>
-										</div>
-										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
-											<a href="#" class="icons-menu-tasks">
-												<i class="fad fa-user-minus"></i>
-											</a>
-										</div>
-									</div>
-								</div>
-
-								<div class="list-group-item border-0 rounded-0 check-share-list">
-									<div class="row">
-										<div class="col">
-											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-config4">Fulanedetal@email.com</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-config4" name="input-check-share-config">
-											</div>
-										</div>
-										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
-											<a href="#" class="icons-menu-tasks">
-												<i class="fad fa-user-minus"></i>
-											</a>
-										</div>
-									</div>
-								</div>
-
-								<div class="list-group-item border-0 rounded-0 check-share-list">
-									<div class="row">
-										<div class="col">
-											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-config5">Fulanedetal@email.com</label>
-												<input class="form-check-input" type="checkbox" value="" id="input-check-share-config5" name="input-check-share-config">
-											</div>
-										</div>
-										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
-											<a href="#" class="icons-menu-tasks">
-												<i class="fad fa-user-minus"></i>
-											</a>
-										</div>
-									</div>
-								</div>
+								
+								</c:forEach>
 
 							</div>
 
-							<div class="d-flex flex-row-reverse">
-								<a href="#" class="text-white text-decoration-none pt-2">
-									<i class="fal fa-user-minus"></i>
-									<span>Remover selecionados</span>
-								</a>
-							</div>
+							
+							
+							<c:if test="${usersC.size() > 0}">
+					
+								<div class="d-flex flex-row-reverse">
+									<a href="#" class="text-white text-decoration-none pt-2">
+										<i class="fal fa-user-minus"></i>
+										<span>Remover selecionados</span>
+									</a>
+								</div>
+								
+							</c:if>
 
 						</div>
 

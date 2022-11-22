@@ -90,6 +90,23 @@ $("#modal-share-lists").on("show.bs.modal", function (e) {
 
 	// Limpa os valores dos campos do formulario do modal
 	form[0].reset();
+	
+	$("#lists-modal-share").load(CONTEXT_PATH + `/tasks #lists-modal-share >*`);
+
+});
+
+// Modal Share Lists
+$("#modal-share-list-config").on("show.bs.modal", function (e) {
+
+    let btn = $(e.relatedTarget);
+	let form = $(this).find("#form-modal-share-list-config");
+	let lista = btn.attr("data-lista");
+	
+	lista = lista != undefined && lista > 0 ? lista : 0;
+	// Limpa os valores dos campos do formulario do modal
+	form[0].reset();
+	
+	$("#list-emails-shared").load(CONTEXT_PATH + `/tasks?l=${lista} #list-emails-shared >*`);
 
 });
 
@@ -136,14 +153,30 @@ $(document).on("click", ".btn-remove-lista", function (event) {
 					}
 				} 
 				
-				alert(json.msg);
+				alertSweet(json.msg, json.status);
 			} else {
 				console.log(msg);
 			}
 		})
 		.fail(function(jqXHR, textStatus, msg) {
-			alert(msg);
+			alertSweet(msg);
 		});
+	}
+	
+});
+
+/*
+    Event Elements Modal
+*/
+$(document).on("change", "#btn-select-todes", function (event) {
+
+	// Previne a ação padrão
+	event.preventDefault(); 
+	
+	if($(this).is(":checked")) {
+		$("input[name='input-check-share-list']").prop("checked", true);
+	} else {
+		$("input[name='input-check-share-list']").prop("checked", false);
 	}
 	
 });
@@ -182,13 +215,13 @@ $("#form-modal-add-lists").on("submit", function(e) {
 				refreshListsTaskActual(); 
 			} 
 			
-			alert(json.msg);
+			alertSweet(json.msg, json.status);
 		} else {
 			console.log(msg);
 		}
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 
 });
@@ -229,16 +262,16 @@ $("#form-modal-share-lists").on("submit", function(e) {
 		if (isJson(msg)) {
 			let json = JSON.parse(msg);
 			if (json.status == 1) {
-				refreshListsTaskActual(); 
+				//refreshListsTaskActual(); 
 			} 
 			
-			alert(json.msg);
+			alertSweet(json.msg, json.status);
 		} else {
 			console.log(msg);
 		}
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 
 });

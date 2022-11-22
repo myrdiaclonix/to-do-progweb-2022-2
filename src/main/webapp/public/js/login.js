@@ -48,15 +48,15 @@ $('#form-login').on("submit", function (e) {
 			if (json.status == 1) {
 				window.location.href = CONTEXT_PATH + "/tasks";
 			} else {
-				alert(json.msg);
+				alertSweet(json.msg, json.status);
 			}
 			
 		} else {
-			alert(msg);
+			console.log(msg);
 		}
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 
 });
@@ -75,7 +75,7 @@ $('#form-cadastro').on("submit", function (e) {
 		if (isJson(msg)) {
 			let json = JSON.parse(msg);
 			
-			alert(json.msg);
+			alertSweet(json.msg, json.status);
 			
 			if (json.status == 1) {
 				setTimeout(function(){
@@ -84,11 +84,11 @@ $('#form-cadastro').on("submit", function (e) {
 			} 
 			
 		} else {
-			alert(msg);
+			console.log(msg);
 		}
 	})
 	.fail(function(jqXHR, textStatus, msg) {
-		alert(msg);
+		alertSweet(msg);
 	});
 
 });
