@@ -121,8 +121,12 @@ public class TaskController extends HttpServlet {
             String title = request.getParameter("input-title-task");
             String description = request.getParameter("textarea-description");
             String dateLimit = request.getParameter("input-date-limit");
+            
+            String taskStatus = request.getParameter("status");
+            Integer status = taskStatus != null ? Integer.parseInt(taskStatus) : 0;
 
-            Integer listId = Integer.parseInt(request.getParameter("task-list-option"));
+            String taskList = request.getParameter("task-list-option");
+            Lista ls = taskList != null ? daoLista.find(Integer.parseInt(taskList)) : null;
 
             boolean isOk = true;
             if (title.isEmpty())
@@ -152,7 +156,7 @@ public class TaskController extends HttpServlet {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime localDate = LocalDateTime.parse(dateLimit, formatter);
                 Timestamp date = Timestamp.valueOf(localDate);
-                Task t = new Task(taskId, title, description, 0, date, null, user, daoLista.find(listId));
+                Task t = new Task(taskId, title, description, status, date, null, user, ls);
                 daoTask.save(t);
                 
                 String msg = action.equals("editTask") ? "Tarefa atualizada com sucesso!" : "Tarefa adicionado com sucesso!";
@@ -171,7 +175,6 @@ public class TaskController extends HttpServlet {
                 res.addRes(ts.getTitle());
                 if (ts.getDtLimit() != null)
                 {
-                    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                     res.addRes(ts.getDtLimit().toString());
                 }
                 else
@@ -189,13 +192,34 @@ public class TaskController extends HttpServlet {
             }
             out.println(res.toJson());
             return;
-        } 
-        else {
-            if (action.equals("SLTKS")) {
-                String search = request.getParameter("input-search-task");
-                out.println(search);
+        }
+        else if (action.equals("removeTask"))
+        {
+            boolean del = false;
+            Task t = daoTask.find(taskId);
+            if (t != null)
+            {
+                del = daoTask.remove(t);
             }
-            out.println(action);
+            if(del)
+            {
+                res.setMsg("Tarefa removida com sucesso.");
+                res.setStatus(1);
+            }
+            else
+            {
+                res.setMsg("Erro ao remover a tarefa.");
+            }
+            out.println(res.toJson());
+            return;
+        }
+        else if (action.equals("changeStatus"))
+        {
+            Task t = daoTask.find(taskId);
+            t.setStatus(Integer.parseInt(request.getParameter("status")));
+            daoTask.save(t);
+            
+            res.setStatus(1);
             return;
         }
     }

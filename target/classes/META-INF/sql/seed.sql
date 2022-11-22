@@ -1,4 +1,5 @@
 INSERT IGNORE INTO users (id, name, email, password) VALUES (1, "eduardo santos luz", "edyven100@gmail.com", "$2a$12$pi7BvOKVc5ZuqFnQae3p0O8iG7kNf0KADSCZdQz4E.N9YG9XIN0d2")
+INSERT IGNORE INTO users (id, name, email, password) VALUES (2, "meee", "meee@gmail.com", "$2a$12$pi7BvOKVc5ZuqFnQae3p0O8iG7kNf0KADSCZdQz4E.N9YG9XIN0d2")
 INSERT IGNORE INTO listas (id, idUser, title, description) VALUES (1, 1, "Lista de teste", "Primeira lista")
 INSERT IGNORE INTO listas (id, idUser, title, description) VALUES (2, 1, "Lista de teste 2", "Segunda lista")
 INSERT IGNORE INTO listas (id, idUser, title, description) VALUES (3, 1, "Lista de teste 3", "Terceira lista")

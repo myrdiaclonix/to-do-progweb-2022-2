@@ -31,21 +31,22 @@ $(document).on("change", ".check-confirm-task", function (event) {
 	// Previne a ação padrão
 	event.preventDefault(); 
 	
+	let newStatus;
 	if($(this).is(':checked')) {
+		newStatus = 1;
 		console.log("Confirmei");
 	} else {
+		newStatus = 0;
 		console.log("Desconfirmei");
 	}
 	
-	let task = $(this).attr("data-task");
+	let task = $(this).attr("value");
 	task = task != undefined && task > 0 ? task : 0;
-	
-	let action = "addTask";
 	
 	$.ajax({
 		url: CONTEXT_PATH + "/tasks",
 		type: 'POST',
-		data: $(this).serialize() + `&action=${action}&id=${task}`,
+		data: $(this).serialize() + `&action=changeStatus&id=${task}&status=${newStatus}`,
 		beforeSend: function() {
 			console.log("Enviando...");
 		}
@@ -267,6 +268,7 @@ function refreshOnlyTasksComplete(url) {
 	$("#list-all-tasks").load(CONTEXT_PATH + `${url} #list-all-tasks >*`);
 	$("#sub-list-tasks-complete").load(CONTEXT_PATH + `${url} #sub-list-tasks-complete >*`);
 	$("#counter-tasks-complete").load(CONTEXT_PATH + `${url} #counter-tasks-complete >*`);
+	$("#list-my-tasks-complete").load(CONTEXT_PATH + `${url} #list-my-tasks-complete >*`);
 }
 
 function refreshListsTaskActual(url = "/tasks", type = 0) {

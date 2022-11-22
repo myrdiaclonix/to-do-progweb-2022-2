@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import site.entities.Lista;
 import site.entities.Task;
 
 @Stateless
@@ -98,5 +99,18 @@ public class TaskDAO {
         }
         return ts;
     }
-
+    
+    public boolean remove(Task t) {
+        boolean tsk = false;
+        EntityTransaction trn = this.em.getTransaction();
+        trn.begin();
+        try {
+            this.em.remove(t);
+            trn.commit();
+            tsk = true;
+        } catch (Exception e) {
+            trn.rollback();
+        }
+        return tsk;
+    }
 }
