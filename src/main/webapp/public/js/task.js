@@ -92,6 +92,7 @@ $(document).on("click", ".btn-remove-task", function (event) {
 				if (json.status == 1) {
 					refreshListsTaskActual("/tasks", 1);
 				} 
+				alertSweet(json.msg, json.status);
 			} 
 		})
 		.fail(function(jqXHR, textStatus, msg) {

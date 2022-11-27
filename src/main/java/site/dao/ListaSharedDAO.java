@@ -65,12 +65,10 @@ public class ListaSharedDAO {
     }
 
     @SuppressWarnings("unchecked")
-    public List<ListaShared> findByUser(Integer idUser, Integer idUserC) {
-        return this.em.createQuery("SELECT l FROM ListaShared l"
-                + "INNER JOIN User u ON u.user.id = :lUser "
-                + "WHERE l.user.id = :lUserC")
+    public List<ListaShared> findByUser(Integer idUser) {
+        return this.em.createQuery("SELECT l FROM ListaShared l "
+                + "WHERE l.user.id = :lUser")
                 .setParameter("lUser", idUser)
-                .setParameter("lUserC", idUserC)
                 .getResultList();
     }
     

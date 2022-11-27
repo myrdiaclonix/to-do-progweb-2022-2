@@ -2,19 +2,23 @@ package site.dao;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import site.entities.Lista;
+import site.entities.ListaShared;
 import site.entities.Task;
 
 @Stateless
 public class TaskDAO {
     
     private EntityManager em = Persistence.createEntityManagerFactory("pu-sqlite").createEntityManager();
-
+    
+    @EJB
+    private ListaSharedDAO daoListaShared;
+    
     public TaskDAO() {
         super();
     }
@@ -48,6 +52,13 @@ public class TaskDAO {
                     .setParameter("tUser", idUser)
                     .getResultList();
         } else {
+            
+            List<ListaShared> lists = daoListaShared.findByUserList(idUser, lista);
+            
+            if(lists.size() == 1) {
+                idUser = lists.get(0).getLista().getUser().getId();
+            }
+            
             return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
                     + "AND t.lista.idLista = :tLista "
                     + "AND t.user.id = :tUser "
@@ -74,6 +85,13 @@ public class TaskDAO {
                     .setParameter("tUser", idUser)
                     .getResultList();
         } else {
+            
+            List<ListaShared> lists = daoListaShared.findByUserList(idUser, lista);
+            
+            if(lists.size() == 1) {
+                idUser = lists.get(0).getLista().getUser().getId();
+            }
+            
             return this.em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :tTitle AND t.status = :tStatus "
                     + "AND t.lista.idLista = :tLista "
                     + "AND t.user.id = :tUser "

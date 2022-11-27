@@ -239,6 +239,29 @@ public class ListaController extends HttpServlet{
             */
             
             
+        } else if(action.equals("delListaShared")) {
+            
+
+            String lshared = request.getParameter("lshared");
+            Integer idListaShared = lshared != null ? Integer.parseInt(lshared) : 0;
+            
+            boolean del = false;
+            ListaShared ls = daoListaShared.find(idListaShared);
+            
+            if(ls != null) {
+                del = daoListaShared.remove(ls);
+            } 
+            
+            if(del) {
+                res.setMsg("Usuário removido com sucesso!");
+                res.setStatus(1);
+            } else {
+                res.setMsg("Erro ao remover!");
+            }
+            
+            out.println(res.toJson());
+            return;
+            
         }
         
         return;

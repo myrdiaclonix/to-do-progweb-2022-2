@@ -192,12 +192,22 @@
 			<hr>
 
 			<div class="list-group rounded-0">
-				<a href="#list-viagem" class="list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5">
+				<c:forEach var="ls" varStatus="status" items="${listaShared}">
+				
+				<c:if test="${ls.lista.idLista != listaTask.idLista}">${active = ""}</c:if>
+				<c:if test="${ls.lista.idLista == listaTask.idLista}"><span class="d-none">${active = "actual"}</span></c:if>
+				
+				<a href="#lista-${ls.lista.idLista}" class='list-group-item list-group-item-action border-0 list-item-tasks menu-task fs-5 ${active}'>
 					<span>
 						<i class="fad fa-share-alt icons-menu-tasks"></i>
-						Compartilhada
+						${ls.lista.title}
+					</span>
+					<span class="btn-list-edit float-end ${active}">
+						<i class="fas fa-trash-alt icons-menu-tasks btn-remove-listaShared" data-lista="${ls.idListaShared}" data-type="1"></i>
 					</span>
 				</a>
+				
+				</c:forEach>
 			</div>
 
 		</article>
@@ -371,6 +381,11 @@
 								<c:forEach var="ls" items="${listas}">
 									<option value="${ls.idLista}">${ls.title}</option>
 								</c:forEach>
+								<c:forEach var="ls" items="${listaShared}">
+									<option value="${ls.lista.idLista}">
+										${ls.lista.title} - @${ls.lista.user.name}
+									</option>
+								</c:forEach>
 							</select>
 						</div>
 
@@ -535,13 +550,10 @@
 								<div class="list-group-item border-0 rounded-0 check-share-list">
 									<div class="row">
 										<div class="col">
-											<div class="form-check">
-												<label class="form-check-label" for="input-check-share-config">${usc.user.email}</label>
-												<input class="form-check-input" type="checkbox" id="input-check-share-config${usc.idListaShared}" name="input-check-share-config">
-											</div>
+											<label class="form-check-label" for="input-check-share-config">${usc.user.email}</label>
 										</div>
 										<div class="col-2 d-flex justify-content-end align-items-center gap-5">
-											<a href="#" class="icons-menu-tasks">
+											<a href="#remove-listaShared" class="icons-menu-tasks btn-remove-listaShared" data-lista="${usc.idListaShared}">
 												<i class="fad fa-user-minus"></i>
 											</a>
 										</div>
@@ -554,7 +566,7 @@
 
 							
 							
-							<c:if test="${usersC.size() > 0}">
+							<c:if test="${usersC.size() == -1}">
 					
 								<div class="d-flex flex-row-reverse">
 									<a href="#" class="text-white text-decoration-none pt-2">

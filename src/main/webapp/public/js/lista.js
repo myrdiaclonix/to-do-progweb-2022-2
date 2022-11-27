@@ -106,7 +106,7 @@ $("#modal-share-list-config").on("show.bs.modal", function (e) {
 	// Limpa os valores dos campos do formulario do modal
 	form[0].reset();
 	
-	$("#list-emails-shared").load(CONTEXT_PATH + `/tasks?l=${lista} #list-emails-shared >*`);
+	refreshSharedListaConfig(lista);
 
 });
 
@@ -150,6 +150,60 @@ $(document).on("click", ".btn-remove-lista", function (event) {
 						replaceSearchURL(url);	
 					} else {
 						refreshListsTaskActual();
+					}
+				} 
+				
+				alertSweet(json.msg, json.status);
+			} else {
+				console.log(msg);
+			}
+		})
+		.fail(function(jqXHR, textStatus, msg) {
+			alertSweet(msg);
+		});
+	}
+	
+});
+
+$(document).on("click", ".btn-remove-listaShared", function (event) {
+
+	// Previne a ação padrão
+	event.preventDefault(); 
+	
+	let type = $(this).attr("data-type");
+	type = type != undefined && type > 0 ? type : 0;
+	
+	let msg = type > 0 ? "Confirma a remoção dessa lista compartilhada?" : "Confirma a remoção desse usuário dessa lista?"; 
+	let conf = confirm(msg);
+	
+	if(conf) {
+		let lista = $(this).attr("data-lista");
+	
+		lista = lista != undefined && lista > 0 ? lista : 0;
+		
+		let data = `action=delListaShared&lshared=${lista}`;
+		
+		$.ajax({
+			url: CONTEXT_PATH + "/lists",
+			type: 'POST',
+			data: data,
+			beforeSend: function() {
+				console.log("Removendo...");
+			}
+		})
+		.done(function(msg) {
+			
+			if (isJson(msg)) {
+				let json = JSON.parse(msg);
+				if (json.status == 1) {
+					
+					if(type == 1) {
+						json.msg = "Lista compartilhada removida com sucesso!";
+						refreshListsTaskActual();
+					} else {
+						let params = getParametersURL();
+						let l = params['l'] != undefined ? params['l'] : 0;
+						refreshSharedListaConfig(l);
 					}
 				} 
 				
@@ -284,4 +338,8 @@ function replaceTaskLista(lista = 0) {
 	
 	refreshOnlyTasks(url);
 	replaceSearchURL(url);
+}
+
+function refreshSharedListaConfig(lista = 0) {
+	$("#list-emails-shared").load(CONTEXT_PATH + `/tasks?l=${lista} #list-emails-shared >*`);
 }

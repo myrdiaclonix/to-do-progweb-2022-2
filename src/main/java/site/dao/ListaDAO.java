@@ -2,18 +2,23 @@ package site.dao;
 
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import site.entities.Lista;
+import site.entities.ListaShared;
 
 @Stateless
 public class ListaDAO {
     
     private EntityManager em = Persistence.createEntityManagerFactory("pu-sqlite").createEntityManager();
 
+    @EJB
+    private ListaSharedDAO daoListaShared;
+    
     public ListaDAO() {
         super();
     }
@@ -24,7 +29,10 @@ public class ListaDAO {
     
     public Lista findById(Integer id, Integer idUser) {
         Lista ls = find(id);
-        return ls != null && ls.getUser().getId() == idUser ? ls : null;
+        
+        List<ListaShared> lists = daoListaShared.findByUserList(idUser, id);
+        
+        return ls != null && (ls.getUser().getId() == idUser || lists.size() == 1) ? ls : null;
     }
     
     @SuppressWarnings("unchecked")

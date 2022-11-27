@@ -89,6 +89,7 @@ public class TaskController extends HttpServlet {
         List<Lista> listas = daoLista.findAll(user.getId());
         Lista listaTask = idLista != null && idLista > 0 ? daoLista.findById(idLista, user.getId()) : null;
         List<ListaShared> usersC = daoListaShared.findByLista(idLista);
+        List<ListaShared> listaShared = daoListaShared.findByUser(user.getId());
         
         for(ListaShared us : usersC) {
             System.out.println(us.getIdListaShared());
@@ -98,6 +99,7 @@ public class TaskController extends HttpServlet {
         request.setAttribute("cTasks", cTasks);
         request.setAttribute("search", search);
         request.setAttribute("listas", listas);
+        request.setAttribute("listaShared", listaShared);
         request.setAttribute("listaTask", listaTask);
         request.setAttribute("usersC", usersC);
         request.setAttribute("user", user);
@@ -136,8 +138,9 @@ public class TaskController extends HttpServlet {
             String dateLimit = request.getParameter("input-date-limit");
 
             Integer listId = Integer.parseInt(request.getParameter("task-list-option"));
-
+            Lista listaTask = daoLista.findById(listId, user.getId());
             boolean isOk = true;
+            
             if (title.isEmpty())
             {
                 res.setMsg("Título inválido!");
@@ -161,11 +164,24 @@ public class TaskController extends HttpServlet {
                 return;
             }
             
+            if(listaTask == null) {
+                res.setMsg("Lista inválida!");
+                isOk = false;
+                out.println(res.toJson());
+                return;
+            } else {
+                
+                if(listaTask.getUser().getId() != user.getId()) {
+                    user = listaTask.getUser();
+                }
+                
+            }
+            
             if (isOk) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
                 LocalDateTime localDate = LocalDateTime.parse(dateLimit, formatter);
                 Timestamp date = Timestamp.valueOf(localDate);
-                Task t = new Task(taskId, title, description, 0, date, null, user, daoLista.find(listId));
+                Task t = new Task(taskId, title, description, 0, date, null, user, listaTask);
                 daoTask.save(t);
                 
                 String msg = action.equals("editTask") ? "Tarefa atualizada com sucesso!" : "Tarefa adicionada com sucesso!";
